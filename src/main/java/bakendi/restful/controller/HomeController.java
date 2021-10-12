@@ -1,4 +1,4 @@
 package bakendi.restful.controller;
 
-public class testController {
+public class HomeController {
 }
