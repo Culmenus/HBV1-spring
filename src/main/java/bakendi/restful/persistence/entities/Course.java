@@ -8,6 +8,17 @@ public class Course {
     private String courseName;
     private String description;
 
+    // ásett ráð að hafa ekki descr í constructor
+    public Course(long id, String courseId, String courseName) {
+        this.id = id;
+        this.courseId = courseId;
+        this.courseName = courseName;
+    }
+
+
+    // á meðan allt er í lausu lofti þá ætla ég ekki að setja inn getter og setter.
+
+
     // kannski baeta við duration eða eithtvað...
 
     }
