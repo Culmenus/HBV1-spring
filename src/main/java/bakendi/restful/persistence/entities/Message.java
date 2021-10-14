@@ -5,7 +5,10 @@ import java.util.Date;
 
 public class Message {
     private long id;
-    private Date created; // hef util, til að hafa sek
-    private User sentBy; //idk man
-    private String text;
+
+    // hef util, til að hafa sek
+    private Date createdAt;
+    private long sentById;
+    private String message;
+    private boolean isEdited;
 }

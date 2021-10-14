@@ -7,8 +7,9 @@ public class User {
 
     private String username;
     private String password; // hash and salt plz.
+    private String email;
 
-    private
+
 
 
 }

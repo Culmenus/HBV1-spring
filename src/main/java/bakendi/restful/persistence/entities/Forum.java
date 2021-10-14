@@ -7,6 +7,7 @@ public class Forum {
     private String courseId; // sbr TÖL025M eða eitthvað
     private String courseName;
     private String description;
+    private List<long> threads;
 
     // ásett ráð að hafa ekki descr í constructor
     public Forum(long id, String courseId, String courseName) {
