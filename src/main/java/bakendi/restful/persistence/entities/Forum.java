@@ -1,7 +1,7 @@
 package bakendi.restful.persistence.entities;
 
 // þurfum þetta örugglega til að viðhalda upplýsingar um kúrsana
-public class Course {
+public class Forum {
     private long id;
 
     private String courseId; // sbr TÖL025M eða eitthvað
@@ -9,7 +9,7 @@ public class Course {
     private String description;
 
     // ásett ráð að hafa ekki descr í constructor
-    public Course(long id, String courseId, String courseName) {
+    public Forum(long id, String courseId, String courseName) {
         this.id = id;
         this.courseId = courseId;
         this.courseName = courseName;
