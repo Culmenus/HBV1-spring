@@ -9,6 +9,9 @@ public class User {
     private String password; // hash and salt plz.
     private String email;
 
+    private List<long> favoriteForums;
+    /*private Enum userRole */
+
 
 
 

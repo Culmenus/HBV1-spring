@@ -5,7 +5,7 @@ public class Forum {
     private long id;
 
     private String courseId; // sbr TÖL025M eða eitthvað
-    private String courseName;
+    private String name;
     private String description;
     private List<long> threads;
 
