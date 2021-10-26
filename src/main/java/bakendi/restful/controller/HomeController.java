@@ -1,6 +1,6 @@
 package bakendi.restful.controller;
 
-@Controller
+@RESTController
 public class HomeController {
 
 }

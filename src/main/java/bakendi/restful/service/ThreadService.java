@@ -1,4 +1,4 @@
 package bakendi.restful.service;
 
-public class testService {
+public class ThreadService {
 }
