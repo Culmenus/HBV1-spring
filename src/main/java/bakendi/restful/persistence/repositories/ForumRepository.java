@@ -9,6 +9,8 @@ public interface ForumRepository extends JpaRepository<Forum, Long> {
 
     Forum save(Forum forum);
     void delete(Forum forum);
-
+    Forum findByName(String name);
     List<Forum> findAll();
+    Forum findByID(long ID);
+
 }

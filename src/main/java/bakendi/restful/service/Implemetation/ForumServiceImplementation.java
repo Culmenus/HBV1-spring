@@ -21,27 +21,27 @@ public class ForumServiceImplementation implements ForumService {
 
 
     @Override
-    public Forum findByTitle(String title) {
-        return null;
+    public Forum findByName(String name) {
+        return forumRepository.findByName(name);
     }
 
     @Override
     public List<Forum> findAll() {
-        return null;
+        return forumRepository.findAll();
     }
 
     @Override
     public Forum findByID(long ID) {
-        return null;
+        return forumRepository.findByID(ID);
     }
 
     @Override
     public Forum save(Forum forum) {
-        return null;
+        return forumRepository.save(forum);
     }
 
     @Override
     public void delete(Forum forum) {
-
+        forumRepository.delete(forum);
     }
 }
