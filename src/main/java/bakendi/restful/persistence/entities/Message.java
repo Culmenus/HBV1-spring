@@ -1,11 +1,10 @@
 package bakendi.restful.persistence.entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
-// TODO VENSLA SAMANA ENTITY, SBR. ONE TO MANY OSFRV
+@Entity
+@Table(name = "messages")
 public class Message {
 
     @Id

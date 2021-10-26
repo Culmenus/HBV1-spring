@@ -1,11 +1,12 @@
 package bakendi.restful.persistence.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-// þurfum þetta örugglega til að viðhalda upplýsingar um kúrsana
-// TODO VENSLA SAMANA ENTITY, SBR. ONE TO MANY OSFRV
+@Entity
+@Table(name = "forums")
 public class Forum {
 
     @Id
