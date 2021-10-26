@@ -1,7 +1,14 @@
 package bakendi.restful.persistence.entities;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 // þurfum þetta örugglega til að viðhalda upplýsingar um kúrsana
 public class Forum {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String courseId; // sbr TÖL025M eða eitthvað
@@ -16,10 +23,51 @@ public class Forum {
         this.courseName = courseName;
     }
 
-
-    // á meðan allt er í lausu lofti þá ætla ég ekki að setja inn getter og setter.
-
-
-    // kannski baeta við duration eða eithtvað...
-
+    public void addThread(long thrdId) {
+        // todo
     }
+
+    public void removeThread(long thrdId) {
+        // todo
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<long> getThreads() {
+        return threads;
+    }
+
+    public void setThreads(List<long> threads) {
+        this.threads = threads;
+    }
+}

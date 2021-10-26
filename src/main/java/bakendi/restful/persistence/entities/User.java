@@ -1,8 +1,14 @@
 package bakendi.restful.persistence.entities;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 @Table(name = "users") //þarf að laga þetta.
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String username;
