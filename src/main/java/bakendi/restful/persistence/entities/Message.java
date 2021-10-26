@@ -13,9 +13,11 @@ public class Message {
 
     // hef util, til að hafa sek
     private Date createdAt;
-    private long sentById;
     private String message;
     private boolean isEdited;
+
+    @OneToOne(mappedBy = "") // mapped by user en veit ekki alveg
+    private long sentById;
 
     public Message(long id, Date createdAt, long sentById, String message, boolean isEdited) {
         this.id = id;

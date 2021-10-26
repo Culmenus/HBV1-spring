@@ -15,8 +15,10 @@ public class Thread {
 
     private String title;
     private String description;
-    private List<long> messages;
     private Date lastUpdated;
+
+    @OneToMany(mappedBy = "") // ath
+    private List<long> messages;
 
     public Thread(long id, String title, String description, List<long> messages, Date lastUpdated) {
         this.id = id;

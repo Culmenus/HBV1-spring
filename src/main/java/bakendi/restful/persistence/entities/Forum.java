@@ -1,9 +1,6 @@
 package bakendi.restful.persistence.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "forums")
@@ -16,6 +13,8 @@ public class Forum {
     private String courseId; // sbr TÖL025M eða eitthvað
     private String name;
     private String description;
+
+    @OneToMany(mappedBy = "") //ath
     private List<long> threads;
 
     // ásett ráð að hafa ekki descr í constructor

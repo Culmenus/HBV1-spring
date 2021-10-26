@@ -1,9 +1,6 @@
 package bakendi.restful.persistence.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -18,6 +15,7 @@ public class User {
     private String password; // hash and salt plz.
     private String email;
 
+    @OneToMany(mappedBy = "") // forumId??
     private List<long> favoriteForums;
     /*private Enum userRole */
 
