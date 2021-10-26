@@ -21,7 +21,7 @@ public class Forum {
     public Forum(long id, String courseId, String courseName) {
         this.id = id;
         this.courseId = courseId;
-        this.courseName = courseName;
+        this.name = name;
     }
 
     public void addThread(long thrdId) {
