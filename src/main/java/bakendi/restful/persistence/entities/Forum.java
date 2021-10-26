@@ -18,7 +18,7 @@ public class Forum {
     private List<long> threads;
 
     // ásett ráð að hafa ekki descr í constructor
-    public Forum(long id, String courseId, String courseName) {
+    public Forum(long id, String courseId, String name) {
         this.id = id;
         this.courseId = courseId;
         this.name = name;
