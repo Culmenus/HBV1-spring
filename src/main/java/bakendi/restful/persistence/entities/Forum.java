@@ -1,6 +1,8 @@
 package bakendi.restful.persistence.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "forums")
@@ -8,20 +10,27 @@ public class Forum {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long ID;
 
     private String courseId; // sbr TÖL025M eða eitthvað
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "") //ath
-    private List<long> threads;
+    @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Thread> threads = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     // ásett ráð að hafa ekki descr í constructor
-    public Forum(long id, String courseId, String courseName) {
-        this.id = id;
+    public Forum(String courseId, String courseName) {
         this.courseId = courseId;
-        this.courseName = courseName;
+        this.name = courseName;
+    }
+
+    // dha: intellij ask for this i give
+    public Forum() {
+
     }
 
     public void addThread(long thrdId) {
@@ -32,12 +41,12 @@ public class Forum {
         // todo
     }
 
-    public long getId() {
-        return id;
+    public long getID() {
+        return ID;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setID(long id) {
+        this.ID = id;
     }
 
     public String getCourseId() {
@@ -64,11 +73,11 @@ public class Forum {
         this.description = description;
     }
 
-    public List<long> getThreads() {
+    public List<Thread> getThreads() {
         return threads;
     }
 
-    public void setThreads(List<long> threads) {
+    public void setThreads(List<Thread> threads) {
         this.threads = threads;
     }
 }

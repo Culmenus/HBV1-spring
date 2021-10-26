@@ -9,30 +9,36 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long ID;
 
     // hef util, til að hafa sek
     private Date createdAt;
     private String message;
     private boolean isEdited;
 
-    @OneToOne(mappedBy = "") // mapped by user en veit ekki alveg
-    private long sentById;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Thread thread;
 
-    public Message(long id, Date createdAt, long sentById, String message, boolean isEdited) {
-        this.id = id;
+    @OneToOne(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
+    private User sentBy;
+
+    public Message(Date createdAt, User sentBy, String message, boolean isEdited) {
         this.createdAt = createdAt;
-        this.sentById = sentById;
+        this.sentBy = sentBy;
         this.message = message;
         this.isEdited = isEdited;
     }
 
-    public long getId() {
-        return id;
+    public Message() {
+
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public long getID() {
+        return ID;
+    }
+
+    public void setID(long id) {
+        this.ID = id;
     }
 
     public Date getCreatedAt() {
@@ -41,14 +47,6 @@ public class Message {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public long getSentById() {
-        return sentById;
-    }
-
-    public void setSentById(long sentById) {
-        this.sentById = sentById;
     }
 
     public String getMessage() {
@@ -65,5 +63,13 @@ public class Message {
 
     public void setEdited(boolean edited) {
         isEdited = edited;
+    }
+
+    public User getSentBy() {
+        return sentBy;
+    }
+
+    public void setSentBy(User sentBy) {
+        this.sentBy = sentBy;
     }
 }

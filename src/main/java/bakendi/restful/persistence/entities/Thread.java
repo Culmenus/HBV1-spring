@@ -1,7 +1,7 @@
 package bakendi.restful.persistence.entities;
 
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,37 +11,44 @@ import java.util.List;
 public class Thread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long ID;
 
     private String title;
     private String description;
     private Date lastUpdated;
 
-    @OneToMany(mappedBy = "") // ath
-    private List<long> messages;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Forum forum;
 
-    public Thread(long id, String title, String description, List<long> messages, Date lastUpdated) {
-        this.id = id;
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages = new ArrayList<>();
+
+    public Thread(String title, String description, List<Message> messages, Date lastUpdated) {
         this.title = title;
         this.description = description;
         this.messages = messages;
         this.lastUpdated = lastUpdated;
     }
 
+    public Thread() {
+
+    }
+    // dha: held við ættum að breyta long yfir í Message
     public void addMsg(long msgId) {
         // todo
     }
 
+    // dha: held við ættum að breyta long yfir í Message
     public void removeMsg(long msgId) {
         // todo
     }
 
-    public long getId() {
-        return id;
+    public long getID() {
+        return ID;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setID(long id) {
+        this.ID = id;
     }
 
     public String getTitle() {
@@ -60,19 +67,19 @@ public class Thread {
         this.description = description;
     }
 
-    public List<long> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<long> messages) {
-        this.messages = messages;
-    }
-
     public Date getLastUpdated() {
         return lastUpdated;
     }
 
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }
