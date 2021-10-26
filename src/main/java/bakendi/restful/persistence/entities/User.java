@@ -4,6 +4,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
+// TODO VENSLA SAMANA ENTITY, SBR. ONE TO MANY OSFRV
 @Table(name = "users") //þarf að laga þetta.
 public class User {
 

@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 // þurfum þetta örugglega til að viðhalda upplýsingar um kúrsana
+// TODO VENSLA SAMANA ENTITY, SBR. ONE TO MANY OSFRV
 public class Forum {
 
     @Id

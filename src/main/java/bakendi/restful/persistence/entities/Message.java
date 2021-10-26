@@ -5,7 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-
+// TODO VENSLA SAMANA ENTITY, SBR. ONE TO MANY OSFRV
 public class Message {
 
     @Id
