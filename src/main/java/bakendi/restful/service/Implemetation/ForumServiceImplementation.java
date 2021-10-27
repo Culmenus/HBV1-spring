@@ -15,7 +15,6 @@ public class ForumServiceImplementation implements ForumService {
 
     @Autowired
     ForumServiceImplementation(ForumRepository forumRepository) {
-        //this.forumRepository = new ForumRepository(); // ath
         this.forumRepository = forumRepository;
     }
 
