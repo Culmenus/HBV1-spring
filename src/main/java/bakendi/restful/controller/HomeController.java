@@ -1,19 +1,31 @@
 package bakendi.restful.controller;
 
-import bakendi.restful.persistence.entities.Message;
-import bakendi.restful.persistence.entities.User;
 import bakendi.restful.service.ForumService;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 public class HomeController {
 
 
-    @RequestMapping("/")
-    public String HomeController() {
-        return "fuck off";
+    @GetMapping("/")
+    public void HomeController(HttpServletResponse response) throws IOException {
+
+        // logged in logic?
+        //response.sendRedirect("/login");
+
+        // for now
+        response.sendRedirect("/forums");
+
+    }
+
+    @GetMapping("/error")
+    public void ErrorHandler(HttpServletResponse response) throws IOException {
+        response.sendError(0, "Error occurred"  );
     }
 }
