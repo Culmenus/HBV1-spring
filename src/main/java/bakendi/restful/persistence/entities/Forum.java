@@ -33,12 +33,12 @@ public class Forum {
 
     }
     // dha: held við ættum að taka inn Thread thread en ekki long...
-    public void addThread(long thrdId) {
+    public void addThread(Thread thread) {
         // todo
     }
 
     // dha: held við ættum að taka inn Thread thread en ekki long...
-    public void removeThread(long thrdId) {
+    public void removeThread(Thread thread) {
         // todo
     }
 

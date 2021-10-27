@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ForumServiceImplementation implements ForumService {
@@ -17,7 +16,6 @@ public class ForumServiceImplementation implements ForumService {
     ForumServiceImplementation(ForumRepository forumRepository) {
         this.forumRepository = forumRepository;
     }
-
 
     @Override
     public Forum findByName(String name) {
