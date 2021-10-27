@@ -6,11 +6,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-    private UserService userService;
+    UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    // End points to add
+    // signup(GET, POST)
+    // login(GET, POST)
+    // loggedIn(GET)
 
 }
