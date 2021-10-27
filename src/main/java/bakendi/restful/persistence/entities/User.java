@@ -85,6 +85,10 @@ public class User {
         this.favoriteForums = favoriteForums;
     }
 
+    public void addToFavorites(Forum forum) {
+        this.favoriteForums.add(forum);
+    };
+
     public UserRole getUserRole() {
         return userRole;
     }

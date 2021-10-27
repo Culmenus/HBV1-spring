@@ -1,7 +1,9 @@
 package bakendi.restful.service.Implemetation;
 
 import bakendi.restful.persistence.entities.Forum;
+import bakendi.restful.persistence.entities.User;
 import bakendi.restful.persistence.repositories.ForumRepository;
+import bakendi.restful.persistence.repositories.UserRepository;
 import bakendi.restful.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,18 @@ import java.util.List;
 @Service
 public class ForumServiceImplementation implements ForumService {
     private ForumRepository forumRepository;
-
+   // private UserRepository userRepository; Save-ar spring addToFavorites uppfærsluna?
     @Autowired
-    ForumServiceImplementation(ForumRepository forumRepository) {
+    ForumServiceImplementation(ForumRepository forumRepository, UserRepository userRepository) {
+
         this.forumRepository = forumRepository;
+        //this.userRepository = userRepository; //??
+    }
+
+    public List<Forum> saveToFavorites(User user, Forum forum){
+        user.addToFavorites(forum);
+       // userRepository.save(user);
+        return user.getFavoriteForums();
     }
 
     @Override

@@ -2,6 +2,7 @@ package bakendi.restful.persistence.repositories;
 
 import bakendi.restful.persistence.entities.Forum;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

@@ -33,13 +33,15 @@ public class Forum {
 
     }
     // dha: held við ættum að taka inn Thread thread en ekki long...
+
+    //ndk1: yes daddy
     public void addThread(Thread thread) {
-        // todo
+        this.threads.add(thread);
     }
 
-    // dha: held við ættum að taka inn Thread thread en ekki long...
+    // ndk1: yes daddy
     public void removeThread(Thread thread) {
-        // todo
+        this.threads.remove(thread);
     }
 
     public long getID() {
