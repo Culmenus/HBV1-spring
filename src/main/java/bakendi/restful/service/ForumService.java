@@ -16,5 +16,4 @@ public interface ForumService {
     Forum findByName(String name);
     List<Forum> findAll();
     Forum findByID(long ID);
-    List<Forum> saveToFavorites(User user , Forum forum);
 }

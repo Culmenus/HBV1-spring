@@ -15,17 +15,10 @@ public class ForumServiceImplementation implements ForumService {
     private ForumRepository forumRepository;
    // private UserRepository userRepository; Save-ar spring addToFavorites uppfærsluna?
     @Autowired
-    ForumServiceImplementation(ForumRepository forumRepository, UserRepository userRepository) {
-
+    ForumServiceImplementation(ForumRepository forumRepository) {
         this.forumRepository = forumRepository;
-        //this.userRepository = userRepository; //??
     }
 
-    public List<Forum> saveToFavorites(User user, Forum forum){
-        user.addToFavorites(forum);
-       // userRepository.save(user);
-        return user.getFavoriteForums();
-    }
 
     @Override
     public Forum findByName(String name) {
