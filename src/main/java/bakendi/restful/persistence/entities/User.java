@@ -15,19 +15,18 @@ public class User {
     private String password; // hash and salt plz.
     private String email;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Message message;
+    @OneToMany(mappedBy = "sentBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Forum> favoriteForums;
 
     private UserRole userRole;
 
-    public User(String username, String password, String email, Message message, UserRole userRole) {
+    public User(String username, String password, String email, UserRole userRole) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.message = message;
         this.userRole = userRole;
     }
     public User() {
@@ -69,14 +68,6 @@ public class User {
         this.email = email;
     }
 
-    public Message getMessage() {
-        return message;
-    }
-
-    public void setMessage(Message message) {
-        this.message = message;
-    }
-
     public List<Forum> getFavoriteForums() {
         return favoriteForums;
     }
@@ -91,5 +82,18 @@ public class User {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "ID=" + ID +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", messages=" + messages +
+                ", favoriteForums=" + favoriteForums +
+                ", userRole=" + userRole +
+                '}';
     }
 }

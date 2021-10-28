@@ -19,7 +19,7 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     private Thread thread;
 
-    @OneToOne(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User sentBy;
 
     public Message(Date createdAt, User sentBy, String message, boolean isEdited) {

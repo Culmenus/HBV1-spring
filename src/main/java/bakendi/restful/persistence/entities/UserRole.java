@@ -1,5 +1,5 @@
 package bakendi.restful.persistence.entities;
 
 public enum UserRole {
-    User, Admin
+    ROLE_USER, ROLE_ADMIN
 }

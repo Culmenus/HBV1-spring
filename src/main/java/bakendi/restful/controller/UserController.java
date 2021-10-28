@@ -17,15 +17,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 public class UserController {
-    private class Token {
-        String token;
-        private Token(String token) {
-            this.token = token;
-        }
-    }
-
     UserService userService;
 
     @Autowired
@@ -38,11 +33,12 @@ public class UserController {
     // login(GET, POST)
 
     @PostMapping("/login")
-    public Token login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+    public String login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
         User user = userService.findByUsername(username);
+        System.out.println(user.toString());
         if(user != null && user.getPassword().equals(pwd)){
             String token = getJWTToken(user.getID());
-            return new Token(token);
+            return token;
         }
         else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");
@@ -52,8 +48,18 @@ public class UserController {
     private String getJWTToken(long userID) {
         String secretKey = "oo323kjok2jerlkaldkjp98q2t4pulakfjlkdjhioa3ry223rfweak";
         Algorithm algorithmHS = Algorithm.HMAC512(secretKey);
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+                //TODO: Baeta vid user authority fra roles
+                .commaSeparatedStringToAuthorityList("ROLE_USER");
         //jwt token issued by the boys, userID can be gotten from token 'sub' claim, expires one week from now.
-        String token = JWT.create().withIssuer("theBoys").withClaim("sub", userID).withIssuedAt(new Date(System.currentTimeMillis())).withExpiresAt(new Date(System.currentTimeMillis()+ 600000000)).sign(algorithmHS);
+        String token = JWT.create().withIssuer("theBoys").withClaim("sub", userID)
+                .withClaim("authorities",
+                grantedAuthorities.stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()))
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis()+ 600000000))
+                .sign(algorithmHS);
         return token;
     }
 
