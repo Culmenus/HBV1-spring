@@ -68,6 +68,8 @@ public class User {
         this.email = email;
     }
 
+    public void addToFavorites(Forum forum) {this.favoriteForums.add(forum);}
+
     public List<Forum> getFavoriteForums() {
         return favoriteForums;
     }
