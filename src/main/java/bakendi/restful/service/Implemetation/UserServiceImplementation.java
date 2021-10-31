@@ -63,6 +63,8 @@ public class UserServiceImplementation implements UserService {
 
         return oldUser;
     }
+
+    @Override
     public User createNewUser(User user) {
         if (!isValidUsername(user.getUsername())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");

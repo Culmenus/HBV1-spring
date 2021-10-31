@@ -1,5 +1,7 @@
 package bakendi.restful.persistence.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,10 +18,12 @@ public class Message {
     private String message;
     private boolean isEdited;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     private Thread thread;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     private User sentBy;
 
     public Message(Date createdAt, User sentBy, String message, boolean isEdited) {

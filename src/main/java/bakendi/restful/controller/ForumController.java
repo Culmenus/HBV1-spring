@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -17,9 +18,9 @@ import java.util.List;
 
 @RestController
 public class ForumController {
-    private ForumService forumService;
-    private ThreadService threadService;
-    private UserService userService;
+    private final ForumService forumService;
+    private final ThreadService threadService;
+    private final UserService userService;
 
     @Autowired
     public ForumController(ForumService forumService, ThreadService threadService, UserService userService) {
@@ -28,28 +29,22 @@ public class ForumController {
         this.userService = userService;
     }
 
-    @PostMapping("/api/forums")
-    public Forum forumsPOST(Forum forum, BindingResult result, HttpServletResponse response) throws IOException {
-        if(result.hasErrors()) {
-            response.sendRedirect("/forums");
-            return forum;
-        }
-
-        // add to favourites? what do here?
-        return forum;
-    }
-
     @GetMapping("/api/forum/{id}")
     public Forum findForumById(@PathVariable("id") long id) {
         return forumService.findByID(id);
     }
 
     @PostMapping("/api/forum/{id}")
-    public Thread createThreadPOST(Thread thread, @PathVariable("id") long id) {
-        //ndk: þurfum við að auðkenna notandann hér? eða er það gert á öðru leveli?
-        //ndk: vantar að tengja user við thread?
+    public Thread createThread(@RequestBody Thread thread, @PathVariable("id") long id, HttpSession session) {
         Forum forum = forumService.findByID(id);
+        // breyta thessu i token utfærslu?
+        User user = (User) session.getAttribute("loggedInUser");
+        //System.out.print(user);
+        if (user != null) {
+            thread.setCreator(user);
+        }
         forum.addThread(thread);
+        forumService.save(forum);
         return thread;
     }
 
@@ -69,11 +64,10 @@ public class ForumController {
         response.sendError(0, "Error occurred"  );
     }
 
-
     @PostMapping("/favorite-forum/{id}") //add to favorites
     public List<Forum> addToFavorites(@PathVariable("id") long id, HttpSession session){
         Forum forum = forumService.findByID(id);
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("loggedInUser");
         user.addToFavorites(forum);
         userService.save(user);
         return user.getFavoriteForums();
@@ -81,13 +75,14 @@ public class ForumController {
 
     @GetMapping("/favorite-forums") //get favorite forums
     public List<Forum> getFavorites(HttpSession session){
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("loggedInUser");
         return user.getFavoriteForums();
     }
 
-    @GetMapping("/forums") //get all forums
-    public List<Forum> getAll(){
-
+    @GetMapping("/api/forums") //get all forums
+    public List<Forum> getAll(HttpServletRequest request){
+        System.out.println(request.getContextPath());
         return forumService.findAll();
     }
+
 }
