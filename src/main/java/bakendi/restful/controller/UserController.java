@@ -77,6 +77,12 @@ public class UserController {
         return this.userService.findById(id);
     }
 
+    /**
+     * Tekur inn user úr request body og breytir nafni og/eða lykilorði
+     * ef þau hafa breyst og til var user með sama id og var sendur inn
+     * @param changedUser
+     * @return changedUser from repository layer
+     */
     @PatchMapping("/api/user/updateuser")
     public User update(@RequestBody User changedUser) {
         System.out.println(changedUser.getUsername());
