@@ -21,6 +21,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Forum> favoriteForums;
 
+
+
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Thread> createdThreads;
 
@@ -87,6 +89,22 @@ public class User {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public List<Thread> getCreatedThreads() {
+        return createdThreads;
+    }
+
+    public void setCreatedThreads(List<Thread> createdThreads) {
+        this.createdThreads = createdThreads;
     }
 
     @Override
