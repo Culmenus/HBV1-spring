@@ -36,11 +36,12 @@ public class UserController {
     // login(GET, POST)
 
     @PostMapping("/api/login")
-    public String login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+    public String login(@RequestParam("user") String username, @RequestParam("password") String pwd, HttpSession session) {
         try {
             User user = userService.findByUsername(username);
             String token = userService.getTokenForUser(user,pwd);
             if (token != null) {
+                session.setAttribute("loggedInUser",user);
                 return token;
             } else {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");
@@ -84,9 +85,14 @@ public class UserController {
     }
 
     @DeleteMapping("/api/user/delete")
-    public void delete(@RequestBody User user) {
+    public void delete(HttpSession session) {
         // ensure admin?
-        userService.delete(user);
+        User user= (User) session.getAttribute("loggedInUser");
+        if(user.getUserRole() == UserRole.ROLE_ADMIN){
+            userService.delete(user);
+            return;
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not admin");
     }
 
 
