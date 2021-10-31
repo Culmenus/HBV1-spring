@@ -34,13 +34,10 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public void HomeController(HttpServletResponse response) throws IOException {
-
-        // logged in logic?
-        //response.sendRedirect("/login");
-
-        // for now
-        response.sendRedirect("/forums");
+    public void HomeController(HttpServletResponse response,HttpSession session) throws IOException {
+        User user = (User) session.getAttribute("loggedInUser");
+        if(user == null)
+            response.sendRedirect("/login");
 
     }
 }

@@ -57,8 +57,16 @@
             <artifactId>java-jwt</artifactId>
             <version>3.18.2</version>
         </dependency>
-
-        <!-->added by dha below</!-->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
 
 
     </dependencies>
