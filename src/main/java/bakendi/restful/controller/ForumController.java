@@ -39,13 +39,16 @@ public class ForumController {
         Forum forum = forumService.findByID(id);
         // breyta thessu i token utfærslu?
         User user = (User) session.getAttribute("loggedInUser");
-        //System.out.print(user);
+        
         if (user != null) {
-            thread.setCreator(user);
+            thread.setCreator(user);   /// gera thetta thegar httpsession er komid a hreint
         }
         forum.addThread(thread);
+        thread.setForum(forum);
+
+        threadService.save(thread);
         forumService.save(forum);
-        return thread;
+        return threadService.findByID(thread.getID());
     }
 
     @PatchMapping("/api/forum/{id}") //react sendir thread gögnin

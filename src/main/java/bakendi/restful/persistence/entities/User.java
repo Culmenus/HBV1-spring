@@ -17,16 +17,12 @@ public class User {
     private String password; // hash and salt plz.
     private String email;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "sentBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Forum> favoriteForums;
 
-
-    @JsonManagedReference
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Thread> createdThreads;
 

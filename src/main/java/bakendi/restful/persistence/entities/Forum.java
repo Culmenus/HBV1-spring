@@ -1,6 +1,7 @@
 package bakendi.restful.persistence.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -19,11 +20,10 @@ public class Forum {
     private String name;
     private String description;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Thread> threads = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 

@@ -1,6 +1,7 @@
 package bakendi.restful.persistence.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ public class Thread {
     private String description;
     private Date lastUpdated;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private Forum forum;
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private User creator;
 
@@ -42,6 +43,11 @@ public class Thread {
         this.title = title;
         this.description = description;
         this.creator = creator;
+    }
+
+    public Thread(String title, String description) {
+        this.title = title;
+        this.description = description;
     }
 
     public Thread(User creator) {
@@ -106,5 +112,13 @@ public class Thread {
     }
 
     public void setCreator(User creator) { this.creator = creator; }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum( Forum forum ) {
+        this.forum = forum;
+    }
 
 }
