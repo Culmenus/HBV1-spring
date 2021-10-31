@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,8 +56,14 @@ public class UserController {
     }
 
     @GetMapping("/api/user")
-    List<User> getAll() {
-        return this.userService.findAll();
+    List<User> getAll(HttpSession session, HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if(token == null)
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authorization token");
+        User user = (User) session.getAttribute(token);
+        if(user != null)
+            return this.userService.findAll();
+        return null;
     }
 
     @PostMapping("/api/user/signup")
@@ -125,13 +132,23 @@ public class UserController {
      * @return the newly added user if verification is successful
      */
     @GetMapping("/verify/{key}")
-    public User verifyKeyForUser(@PathVariable("key") String key, HttpSession session){
-        User user = (User) session.getAttribute("loggedInUser");
+    public void verifyKeyForUser(@PathVariable("key") String key,
+                                 HttpSession session,
+                                 HttpServletResponse response,
+                                 HttpServletRequest request) throws IOException {
+        String token = request.getHeader("Authorization");
+        User user = (User) session.getAttribute(token);
         if(user == null){
             User newlyVerifiedUser = (User) session.getAttribute(key);
-            session.setAttribute("loggedInUser",newlyVerifiedUser);
             userService.save(newlyVerifiedUser);
-            return newlyVerifiedUser; //frontEnd
+            try {
+                response.sendRedirect("/login");
+                return;
+            }catch(IOException e){
+                e.printStackTrace();
+                return;
+            }
+
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not admin");
     }
