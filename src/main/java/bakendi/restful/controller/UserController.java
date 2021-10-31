@@ -59,8 +59,8 @@ public class UserController {
         return this.userService.findAll();
     }
 
-    @PostMapping("/api/user")
-    User createNewUser(@RequestBody User user) {
+    @PostMapping("/api/user/signup")
+    User signup(@RequestBody User user) {
        return userService.createNewUser(user);
     }
 

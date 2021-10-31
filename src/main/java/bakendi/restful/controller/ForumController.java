@@ -27,7 +27,7 @@ public class ForumController {
         this.forumService = forumService;
         this.userService = userService;
     }
-    
+
     @PostMapping("/api/forums")
     public Forum forumsPOST(Forum forum, BindingResult result, HttpServletResponse response) throws IOException {
         if(result.hasErrors()) {
@@ -40,7 +40,7 @@ public class ForumController {
     }
 
     @GetMapping("/api/forum/{id}")
-    public Forum forumByIdGET(@PathVariable("id") long id) {
+    public Forum findForumById(@PathVariable("id") long id) {
         return forumService.findByID(id);
     }
 
