@@ -79,8 +79,9 @@ public class UserController {
         return userService.update(changedUser);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/api/user/delete")
     public void delete(@RequestBody User user) {
+        // ensure admin?
         userService.delete(user);
     }
 
