@@ -27,12 +27,14 @@ public class DummyDataLoader {
 
     @PostMapping("/initdummy")
     public void forums() {
-        userService.save(new User("Danni", "pword", "user@user.is", UserRole.ROLE_USER));
-        userService.save(new User("Jon", "pword2", "admin@user.is", UserRole.ROLE_ADMIN));
+        User user1 = new User("Danni", "pword", "user@user.is", UserRole.ROLE_USER);
+        User user2 = new User("Jon", "pword2", "admin@user.is", UserRole.ROLE_ADMIN);
+        userService.save(user1);
+        userService.save(user2);
         forumService.save(new Forum("TÖL104G", "Stærðfræðimynstur"));
         forumService.save(new Forum("9+10", "21"));
         forumService.save(new Forum("TÖL101G", "Tölvunarfræði 1"));
-        threadService.save(new Thread());
-        threadService.save(new Thread());
+        threadService.save(new Thread(user1));
+        threadService.save(new Thread(user2));
     }
 }

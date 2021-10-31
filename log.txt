@@ -1,0 +1,180 @@
+commit 00b34f06728b12fe271533cce0cb8757867989e9
+Author: jongvnnar <jgh060@gmail.com>
+Date:   Thu Oct 28 00:55:18 2021 +0000
+
+    delete .idea file, sry boys
+
+commit cbe550179a801a3404cd9c1af4076cc5001f8ef1
+Author: jongvnnar <jgh060@gmail.com>
+Date:   Thu Oct 28 00:54:10 2021 +0000
+
+    ignore database in git
+
+commit 5a604b9f377c401a2da0c9100d89b7647d6e9ea0
+Author: jongvnnar <jgh060@gmail.com>
+Date:   Thu Oct 28 00:50:02 2021 +0000
+
+    add database to gitignore to avoid horrible merges
+
+commit 8defa8737011a7fa0ecec3cbe47438e315c1e058
+Author: jongvnnar <jgh060@gmail.com>
+Date:   Thu Oct 28 00:33:39 2021 +0000
+
+    basic auth flow
+
+commit 30fc95939203792e9bac4644a326c2871316f9f0
+Merge: b3eab51 c95164d
+Author: jongvnnar <jgh060@gmail.com>
+Date:   Wed Oct 27 22:49:50 2021 +0000
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       src/main/java/bakendi/restful/controller/HomeController.java
+    #       src/main/java/bakendi/restful/controller/ThreadController.java
+
+commit b3eab5125fb625c4e5c4d9a42b89e63b86873a6c
+Author: jongvnnar <jgh060@gmail.com>
+Date:   Wed Oct 27 22:49:30 2021 +0000
+
+    endpoint returns tonken
+
+commit c95164ddc6b5059988365178533bfe0de77854a3
+Author: Daníel Helgi Ágústsson <danielhelgi1@gmail.com>
+Date:   Wed Oct 27 19:57:51 2021 +0000
+
+    byrja ad mappa
+
+commit 5d7cf0063f05d7d4814193397c895af756f98d0e
+Author: Daníel Helgi Ágústsson <danielhelgi1@gmail.com>
+Date:   Wed Oct 27 15:44:59 2021 +0000
+
+    ehv komment úr stoðtíma
+
+commit 7ce6b6e5cd8fef2f064c2f236af27dc44dd06c2b
+Author: Daníel Helgi Ágústsson <danielhelgi1@gmail.com>
+Date:   Wed Oct 27 00:11:32 2021 +0000
+
+    persistence layer og service layer sett beinustu leið í grinderinn... ætti að vera næstum komið amk
+
+commit 3692cdead86f5906daf0a1df6c7f436eed8ac29e
+Merge: fbbacae dbb502e
+Author: Daníel Helgi Ágústsson <danielhelgi1@gmail.com>
+Date:   Tue Oct 26 23:25:22 2021 +0000
+
+    stick of resolve
+
+commit fbbacae5d89d6b9ae94bf16acf7b2862c669af38
+Author: Daníel Helgi Ágústsson <danielhelgi1@gmail.com>
+Date:   Tue Oct 26 23:21:16 2021 +0000
+
+    draslið keyrir
+
+commit 89de7595c071e2b4bc05c4785d3d56a2fd8b50d5
+Author: Daníel Helgi Ágústsson <danielhelgi1@gmail.com>
+Date:   Tue Oct 26 22:49:00 2021 +0000
+
+    Entity relationships, IDs úr constructors, cleanup her og thar, grunnur ad ForumController, ForumService og ThreadService gerd ad interfaces, grunnur ad ForumServiceImplementation o.fl.
+
+commit dbb502ea9663aa76ec8bf9b2cea2675609eea9bc
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 19:36:13 2021 +0000
+
+    courseName -> name
+
+commit 35d4aa7ef9861ea086814e91920949ed95cbfe4d
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 19:35:26 2021 +0000
+
+    courseName -> name
+
+commit dc1523dfd50c6f1a63ebfccbe2207cb0226bfc27
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 19:31:07 2021 +0000
+
+    þarf vist að vera @RESTController fyrir okkur
+
+commit 46ea71bb069bf1ba598b97055bf0a63cd27fee77
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 19:06:09 2021 +0000
+
+    einhver onetoX tögg komin en þarf að finna út úr mappedBy dæminu
+
+commit 09395b891e3c34f884fb9bd19b96c4e5f41e80e9
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 18:56:33 2021 +0000
+
+    Problematic base work
+
+commit e56680589c35d316cc7296ebafe8417f81d57cf9
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 18:55:03 2021 +0000
+
+    Problematic base work
+
+commit 94ce2baa34708b2fdeb18bb77165134787f1388e
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 16:56:30 2021 +0000
+
+    EÐ TODO
+
+commit 42edc6113f51604304e6d0b20e64ea19a771689a
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 26 16:54:19 2021 +0000
+
+    Getters and setters y constructors
+
+commit 79f870a28fd083d6c520aa64a7f9ee1723fdaa8a
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Sun Oct 17 22:50:51 2021 +0000
+
+    nada
+
+commit 8f7eb3b3507608aad87175488f89f84557c58af6
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Thu Oct 14 16:50:00 2021 +0000
+
+    Eitthvað prune ekki mikið á field breytum
+
+commit 2f0554612bb835793e474d9988e1ee05403792c6
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Thu Oct 14 09:10:03 2021 +0000
+
+    Course -> forume
+
+commit 2d169cb772e9b30c0266bf74fc02a5cbb4d36d54
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 12 13:10:26 2021 +0000
+
+    Dependancy lagap fyrir jpa
+
+commit 1847ea408145a09d7ee0e1d7f77265cb748b45f3
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 12 12:34:10 2021 +0000
+
+    KICK START HACK GOOOO
+
+commit f41b6b9fc2bf497ec8a67897e4ca8209a2297715
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 12 12:26:43 2021 +0000
+
+    eitthvað hakk sem virkar ekki gert í support session.
+    Þetta er gróflega það sem á að gera. En virkar ekki. Vantar slatta inm
+
+commit e539086013b412cddfc0ceb32f5753cb85b7f835
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Wed Oct 6 21:24:54 2021 +0000
+
+    reiknigreind þá
+
+commit 72316e3e9aa70ad5e00dba1bd69d089342eda198
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Wed Oct 6 21:14:40 2021 +0000
+
+    Svona ætti strúktúrinn að vera
+
+commit 7818946ed7644b15c823a08b7dba61c9b962abae
+Author: EatCakeAndDie <61690317+EatCakeAndDie@users.noreply.github.com>
+Date:   Tue Oct 5 16:39:46 2021 +0000
+
+    testa git virkni via intellij ult

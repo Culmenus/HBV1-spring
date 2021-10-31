@@ -54,6 +54,4 @@ public class ForumController {
         threadService.save(thread);
         return thread;
     }
-
-
 }
