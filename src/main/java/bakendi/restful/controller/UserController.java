@@ -85,39 +85,7 @@ public class UserController {
      */
     @PatchMapping("/api/user/updateuser")
     public User update(@RequestBody User changedUser) {
-        System.out.println(changedUser.getUsername());
-        User oldUser = userService.findById(changedUser.getID());
-        String newUsername = changedUser.getUsername();
-        String newPassword = changedUser.getPassword();
-        boolean diffName = newUsername != null && !newUsername.equals(oldUser.getUsername());
-        boolean diffPw =  newPassword != null && !newPassword.equals(oldUser.getPassword());
-        if (diffName){
-            System.out.println("username different");
-            if (usernameExists(newUsername)) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username already exists");
-            }
-            else if (isValidUsername(newUsername)) {
-                // getum bara breytt username her, ekki öllum user
-                oldUser.setUsername(newUsername);
-            } else
-                // skilum gamla user obreyttur ef username invalid
-                // kasta error?
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
-        }
-        if (diffPw) {
-            System.out.println("password different");
-            if (isValidPassword(newPassword)) {
-                // save á að updatea user ef hann er til staðar
-                // látum client bera ábyrgð á að ná fyrst í user by id
-                oldUser.setPassword(newPassword);
-            } else
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
-        }
-        // update with new usrname/password
-        if (diffName || diffPw)
-            userService.save(oldUser);
-
-        return oldUser;
+        return userService.update(changedUser);
     }
 
     /**
