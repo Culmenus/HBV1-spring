@@ -3,24 +3,28 @@ import bakendi.restful.security.JWTUtils;
 import bakendi.restful.persistence.entities.User;
 import bakendi.restful.persistence.repositories.UserRepository;
 import bakendi.restful.service.UserService;
+import bakendi.restful.utilities.Utils;
 import com.auth0.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.net.http.HttpRequest;
 import java.util.List;
 
 @Service
 public class UserServiceImplementation implements UserService {
-    private UserRepository userRepository;
-    private JWTUtils jwtUtils;
+    private final UserRepository userRepository;
+    private final JWTUtils jwtUtils;
+    private final Utils utils;
     @Autowired
-    public UserServiceImplementation(UserRepository userRepository, JWTUtils jwtUtils) {
+    public UserServiceImplementation(UserRepository userRepository, JWTUtils jwtUtils, Utils utils) {
         this.userRepository = userRepository;
         this.jwtUtils = jwtUtils;
+        this.utils = utils;
     }
 
     @Override
@@ -63,7 +67,8 @@ public class UserServiceImplementation implements UserService {
 
         return oldUser;
     }
-    public User createNewUser(User user) {
+    @Override
+    public String sendEmailVerificationForUser(User user, String url) {
         if (!isValidUsername(user.getUsername())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
         }
@@ -78,8 +83,11 @@ public class UserServiceImplementation implements UserService {
         if (emailExists(user.getEmail())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email already exists");
         }
-        this.save(user);
-        return user;
+        //this.save(user); Save user after verifying email.
+        String key = RandomStringUtils.random(20);
+        url = url + '/' + key;
+        utils.sendMail(url,user.getEmail());
+        return key;
     }
 
     /**
