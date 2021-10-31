@@ -54,4 +54,9 @@ public class ForumController {
         threadService.save(thread);
         return thread;
     }
+    @DeleteMapping("/api/forum/{id}")
+    public Thread deleteThread(@PathVariable("id") long id, HttpSession session, Thread thread){
+        threadService.delete(thread);
+        return thread;
+    }
 }
