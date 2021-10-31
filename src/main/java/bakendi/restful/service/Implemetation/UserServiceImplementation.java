@@ -6,6 +6,7 @@ import bakendi.restful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @Service
@@ -40,6 +41,11 @@ public class UserServiceImplementation implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User findByToken(HttpRequest request){
+        String token = request.getHeader()
     }
 
 }

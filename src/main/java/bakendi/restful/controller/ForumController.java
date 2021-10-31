@@ -35,7 +35,7 @@ public class ForumController {
         return forum;
     }
 
-    @GetMapping("/forum/{id}")
+    @RequestMapping(value = "/forum/{id}",method = RequestMethod.GET)
     public Forum forumByIdGET(@PathVariable("id") long id) {
         return forumService.findByID(id);
     }
