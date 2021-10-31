@@ -23,12 +23,7 @@ public class ForumController {
         this.threadService = threadService;
         this.forumService = forumService;
     }
-
-    @GetMapping("/forums")
-    public List<Forum> forumsGET() {
-        return forumService.findAll();
-    }
-
+    
     @PostMapping("/forums")
     public Forum forumsPOST(Forum forum, BindingResult result, HttpServletResponse response) throws IOException {
         if(result.hasErrors()) {
