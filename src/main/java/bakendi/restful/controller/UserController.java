@@ -31,7 +31,7 @@ public class UserController {
     // signup(GET, POST)
     // login(GET, POST)
 
-    @PostMapping("/login")
+    @PostMapping("api/login")
     public String login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
         User user = userService.findByUsername(username);
         System.out.println(user.toString());
@@ -64,14 +64,17 @@ public class UserController {
 
     // loggedIn(GET)
 
-    @GetMapping("/user")
+    @GetMapping("api/user")
     List<User> getAll() {
         return this.userService.findAll();
     }
 
-    @GetMapping("user/{id}")
-    
-    @PatchMapping("user/changepassword")
+    @GetMapping("api/user/{id}")
+    User findUserById(@PathVariable("id") long id) {
+        return this.userService.findById(id);
+    }
+
+    @PatchMapping("api/user/changepassword")
     public User changePassword(User changedUser) {
         if (isValidPassword(changedUser.getPassword())) {
             // save á að updatea user ef hann er til staðar
@@ -79,7 +82,36 @@ public class UserController {
             userService.save(changedUser);
             return changedUser;
         } else
-            throw new RuntimeException("invalid password");
+            // skilum gamla user obreyttur ef password invalid
+            return findUserById(changedUser.getID());
+    }
+
+    @PatchMapping("api/user/changeusername")
+    public User changeUsername(User changedUser) {
+        if (isValidUsername(changedUser.getUsername())) {
+            // save á að updatea user ef hann er til staðar
+            // látum client bera ábyrgð á að ná fyrst í user by id
+            userService.save(changedUser);
+            return changedUser;
+        } else
+            // skilum gamla user obreyttur ef username invalid
+            // kasta error?
+            return findUserById(changedUser.getID());
+    }
+
+    /**
+     * Validates username
+     * @param username
+     * @return true if username between 3 og 20 chars long, begins on a letter
+     *  then contains letters, numbers or underscores only.
+     */
+    private boolean isValidUsername(String username) {
+        String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{2,19}$";
+        if (username.matches(regularExpression)) {
+            return true;
+        } else
+            return false;
+
     }
 
     private boolean isValidPassword(String password) {
@@ -88,6 +120,7 @@ public class UserController {
         else
             return true;
     }
+
 
 
 }
