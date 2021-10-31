@@ -35,7 +35,7 @@ public class UserController {
     // signup(GET, POST)
     // login(GET, POST)
 
-    @PostMapping("api/login")
+    @PostMapping("/api/login")
     public String login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
         try {
             User user = userService.findByUsername(username);
