@@ -71,6 +71,13 @@ public class UserServiceImplementation implements UserService {
         if (!isValidPassword(user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
         }
+        // viljum vid ad username megi vera duplicate?
+        if (usernameExists(user.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username already exists");
+        }
+        if (emailExists(user.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email already exists");
+        }
         this.save(user);
         return user;
     }
@@ -84,7 +91,6 @@ public class UserServiceImplementation implements UserService {
     private boolean isValidUsername(String username) {
         String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{2,19}$";
         return username.matches(regularExpression);
-
     }
 
     private boolean isValidPassword(String password) {
@@ -94,6 +100,11 @@ public class UserServiceImplementation implements UserService {
     private boolean usernameExists(String username) {
         User user = this.findByUsername(username);
         return user != null && user.getUsername().equals(username);
+    }
+
+    private boolean emailExists(String email) {
+        User user = this.findByUsername(email);
+        return user != null && user.getEmail().equals(email);
     }
 
     @Override
@@ -109,6 +120,11 @@ public class UserServiceImplementation implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override

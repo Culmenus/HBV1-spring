@@ -11,6 +11,7 @@ public interface UserService {
     User createNewUser(User user);
     User findById(long id);
     User findByUsername(String username);
+    User findByEmail(String email);
     List<User> findAll();
     String getTokenForUser(User user, String pwd);
 }

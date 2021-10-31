@@ -89,9 +89,6 @@ public class UserController {
         userService.delete(user);
     }
 
-
-
-
     @GetMapping("/user/loggedin")
     User getLoggedIn(HttpServletRequest request){
         String token = request.getHeader("Authorization");
@@ -105,3 +102,6 @@ public class UserController {
         }
     }
 }
+
+// TODO
+// get gert gæja með sama username....
