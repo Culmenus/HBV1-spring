@@ -31,11 +31,11 @@ public class UserController {
     // signup(GET, POST)
     // login(GET, POST)
 
-    @PostMapping("api/login")
+    @PostMapping("/api/login")
     public String login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
         User user = userService.findByUsername(username);
         System.out.println(user.toString());
-        if(user != null && user.getPassword().equals(pwd)){
+        if(user.getPassword().equals(pwd)){
             String token = getJWTToken(user.getID());
             return token;
         }
@@ -88,20 +88,6 @@ public class UserController {
         return this.userService.findById(id);
     }
 
-    @PatchMapping("/api/user/changepassword")
-    public User changePassword(@RequestBody User changedUser) {
-        User oldUser = userService.findById(changedUser.getID());
-        String newPassword = changedUser.getUsername();
-        if (isValidPassword(changedUser.getPassword())) {
-            // save á að updatea user ef hann er til staðar
-            // látum client bera ábyrgð á að ná fyrst í user by id
-            userService.save(changedUser);
-            return changedUser;
-        } else
-            // skilum gamla user obreyttur ef password invalid
-            return findUserById(changedUser.getID());
-    }
-
     @PatchMapping("/api/user/updateuser")
     public User update(@RequestBody User changedUser) {
         System.out.println(changedUser.getUsername());
@@ -147,25 +133,17 @@ public class UserController {
      */
     private boolean isValidUsername(String username) {
         String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{2,19}$";
-        if (username.matches(regularExpression)) {
-            return true;
-        } else
-            return false;
+        return username.matches(regularExpression);
 
     }
 
     private boolean isValidPassword(String password) {
-        if (password.length() < 1)
-            return false;
-        else
-            return true;
+        return password.length() >= 1;
     }
 
     private boolean usernameExists(String username) {
-        if (userService.findByUsername(username)!=null && userService.findByUsername(username).getUsername().equals(username)) {
-            return true;
-        } else
-            return false;
+        User user = userService.findByUsername(username);
+        return user != null && user.getUsername().equals(username);
     }
 
 
