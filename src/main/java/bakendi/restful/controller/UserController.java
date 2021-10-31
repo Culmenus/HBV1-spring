@@ -36,12 +36,14 @@ public class UserController {
     // login(GET, POST)
 
     @PostMapping("/api/login")
-    public String login(@RequestParam("user") String username, @RequestParam("password") String pwd, HttpSession session) {
+    public String login(@RequestParam("user") String username,
+                        @RequestParam("password") String pwd,
+                        HttpSession session) {
         try {
             User user = userService.findByUsername(username);
             String token = userService.getTokenForUser(user,pwd);
             if (token != null) {
-                session.setAttribute("loggedInUser",user);
+                session.setAttribute(token,user);
                 return token;
             } else {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");
@@ -77,8 +79,11 @@ public class UserController {
      * @return changedUser from repository layer
      */
     @PatchMapping("/api/user/updateuser")
-    public User update(@RequestBody User changedUser, HttpSession session) {
-        User user = (User) session.getAttribute("loggedInUser");
+    public User update(@RequestBody User changedUser, HttpSession session, HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if(token == null)
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authorization token");
+        User user = (User) session.getAttribute(token);
         if (user != null && user.getID() == changedUser.getID())
             return userService.update(changedUser);
         else
@@ -86,9 +91,12 @@ public class UserController {
     }
 
     @DeleteMapping("/api/user/delete")
-    public void delete(HttpSession session) {
+    public void delete(HttpSession session, HttpServletRequest request) {
         // ensure admin?
-        User user= (User) session.getAttribute("loggedInUser");
+        String token = request.getHeader("Authorization");
+        if(token == null)
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authorization token");
+        User user= (User) session.getAttribute(token);
         if(user.getUserRole() == UserRole.ROLE_ADMIN){
             userService.delete(user);
             return;
