@@ -1,5 +1,6 @@
 package bakendi.restful.controller;
 
+import bakendi.restful.persistence.entities.Thread;
 import bakendi.restful.persistence.entities.User;
 import bakendi.restful.persistence.entities.UserRole;
 import bakendi.restful.service.UserService;
@@ -9,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,4 +68,26 @@ public class UserController {
     List<User> getAll() {
         return this.userService.findAll();
     }
+
+    @GetMapping("user/{id}")
+    
+    @PatchMapping("user/changepassword")
+    public User changePassword(User changedUser) {
+        if (isValidPassword(changedUser.getPassword())) {
+            // save á að updatea user ef hann er til staðar
+            // látum client bera ábyrgð á að ná fyrst í user by id
+            userService.save(changedUser);
+            return changedUser;
+        } else
+            throw new RuntimeException("invalid password");
+    }
+
+    private boolean isValidPassword(String password) {
+        if (password.length() < 5)
+            return false;
+        else
+            return true;
+    }
+
+
 }
