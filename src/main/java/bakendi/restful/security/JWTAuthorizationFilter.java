@@ -41,7 +41,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.clearContext();
             }
             chain.doFilter(request, response);
-        } catch (JWTVerificationException e) {
+        } catch (Exception e) {
+            System.out.println("eh");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;
@@ -64,11 +65,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     private void setUpSpringAuthentication(DecodedJWT jwt) {
         @SuppressWarnings("unchecked")
         List<String> authorities = jwt.getClaim("authorities").asList(String.class);
-
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(jwt.getSubject(), null,
                 authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         SecurityContextHolder.getContext().setAuthentication(auth);
-
     }
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {

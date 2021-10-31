@@ -49,22 +49,6 @@ public class HomeController {
     }
 
 
-    @EnableWebSecurity
-    @Configuration
-    class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable()
-                    .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                    .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/login").permitAll()
-                    //TODO: eyda tessu shitti
-                    .antMatchers(HttpMethod.POST, "/initdummy").permitAll()
-                    .anyRequest().authenticated();
-        }
-    }
-
     @PostMapping("/favorite-forum/{id}") //add to favorites
     public List<Forum> addToFavorites(@PathVariable("id") long id, HttpSession session){
         Forum forum = forumService.findByID(id);
