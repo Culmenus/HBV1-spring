@@ -7,6 +7,7 @@ import com.auth0.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.http.HttpRequest;
@@ -61,6 +62,17 @@ public class UserServiceImplementation implements UserService {
             this.save(oldUser);
 
         return oldUser;
+    }
+    public User createNewUser(User user) {
+        if (!isValidUsername(user.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
+        }
+        // krabbamein?
+        if (!isValidPassword(user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
+        }
+        this.save(user);
+        return user;
     }
 
     /**

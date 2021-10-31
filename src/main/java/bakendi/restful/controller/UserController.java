@@ -59,21 +59,12 @@ public class UserController {
     }
 
     @PostMapping("/api/user")
-    User createUser(@RequestBody User user) {
-        if (!isValidUsername(user.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
-        }
-        // krabbamein?
-        if (!isValidPassword(user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
-        }
-        userService.save(user);
-        return user;
+    User createNewUser(@RequestBody User user) {
+       return userService.createNewUser(user);
     }
 
     @GetMapping("/api/user/{id}")
     User findUserById(@PathVariable("id") long id) {
-        System.out.println("yo");
         return this.userService.findById(id);
     }
 
@@ -88,26 +79,11 @@ public class UserController {
         return userService.update(changedUser);
     }
 
-    /**
-     * Validates username
-     * @param username
-     * @return true if username between 3 og 20 chars long, begins on a letter
-     *  then contains letters, numbers or underscores only.
-     */
-    private boolean isValidUsername(String username) {
-        String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{2,19}$";
-        return username.matches(regularExpression);
-
+    @DeleteMapping
+    public void delete(@RequestBody User user) {
+        userService.delete(user);
     }
 
-    private boolean isValidPassword(String password) {
-        return password.length() >= 1;
-    }
-
-    private boolean usernameExists(String username) {
-        User user = userService.findByUsername(username);
-        return user != null && user.getUsername().equals(username);
-    }
 
 
 
