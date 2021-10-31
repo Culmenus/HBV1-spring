@@ -64,18 +64,32 @@ public class UserController {
 
     // loggedIn(GET)
 
-    @GetMapping("api/user")
+    @GetMapping("/api/user")
     List<User> getAll() {
         return this.userService.findAll();
     }
 
-    @GetMapping("api/user/{id}")
+    @PostMapping("/api/user")
+    User createUser(@RequestBody User user) {
+        if (!isValidUsername(user.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
+        }
+        // krabbamein?
+        if (!isValidPassword(user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
+        }
+        userService.save(user);
+        return user;
+    }
+
+    @GetMapping("/api/user/{id}")
     User findUserById(@PathVariable("id") long id) {
+        System.out.println("yo");
         return this.userService.findById(id);
     }
 
-    @PatchMapping("api/user/changepassword")
-    public User changePassword(User changedUser) {
+    @PatchMapping("/api/user/changepassword")
+    public User changePassword(@RequestBody User changedUser) {
         if (isValidPassword(changedUser.getPassword())) {
             // save á að updatea user ef hann er til staðar
             // látum client bera ábyrgð á að ná fyrst í user by id
@@ -86,17 +100,23 @@ public class UserController {
             return findUserById(changedUser.getID());
     }
 
-    @PatchMapping("api/user/changeusername")
-    public User changeUsername(User changedUser) {
-        if (isValidUsername(changedUser.getUsername())) {
-            // save á að updatea user ef hann er til staðar
-            // látum client bera ábyrgð á að ná fyrst í user by id
-            userService.save(changedUser);
-            return changedUser;
+    @PatchMapping("/api/user/changeusername")
+    public User changeUsername(@RequestBody User changedUser) {
+        User oldUser = userService.findById(changedUser.getID());
+        String newUsername = changedUser.getUsername();
+        if (usernameExists(newUsername)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username already exists");
+        }
+        else if (isValidUsername(newUsername)) {
+            // getum bara breytt username her, ekki öllum user
+            oldUser.setUsername(newUsername);
+            userService.save(oldUser);
+            System.out.println("komst hingad");
+            return findUserById(changedUser.getID());
         } else
             // skilum gamla user obreyttur ef username invalid
             // kasta error?
-            return findUserById(changedUser.getID());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
     }
 
     /**
@@ -115,10 +135,17 @@ public class UserController {
     }
 
     private boolean isValidPassword(String password) {
-        if (password.length() < 5)
+        if (password.length() < 1)
             return false;
         else
             return true;
+    }
+
+    private boolean usernameExists(String username) {
+        if (userService.findByUsername(username)!=null && userService.findByUsername(username).getUsername().equals(username)) {
+            return true;
+        } else
+            return false;
     }
 
 
