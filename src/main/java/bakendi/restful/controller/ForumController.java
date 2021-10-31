@@ -3,23 +3,24 @@ package bakendi.restful.controller;
 import bakendi.restful.persistence.entities.Forum;
 import bakendi.restful.persistence.entities.Thread;
 import bakendi.restful.service.ForumService;
+import bakendi.restful.service.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
 @RestController
 public class ForumController {
     private ForumService forumService;
+    private ThreadService threadService;
 
     @Autowired
-    public ForumController(ForumService forumService) {
+    public ForumController(ForumService forumService, ThreadService threadService) {
+        this.threadService = threadService;
         this.forumService = forumService;
     }
 
@@ -46,8 +47,16 @@ public class ForumController {
 
     @PostMapping("/forum/{id}")
     public Thread createThreadPOST(Thread thread, @PathVariable("id") long id) {
+        //ndk: þurfum við að auðkenna notandann hér? eða er það gert á öðru leveli?
+        //ndk: vantar að tengja user við thread?
         Forum forum = forumService.findByID(id);
         forum.addThread(thread);
+        return thread;
+    }
+
+    @PatchMapping("forum/{id}") //react sendir thread gögnin
+    public Thread updateThread(@PathVariable("id") long id, HttpSession session, Thread thread){
+        threadService.save(thread);
         return thread;
     }
 

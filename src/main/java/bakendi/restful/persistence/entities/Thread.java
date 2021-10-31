@@ -15,6 +15,7 @@ public class Thread {
     private String title;
     private String description;
     private Date lastUpdated;
+    private long creatorID;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Forum forum;
@@ -22,11 +23,12 @@ public class Thread {
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages = new ArrayList<>();
 
-    public Thread(String title, String description, List<Message> messages, Date lastUpdated) {
+    public Thread(String title, String description, List<Message> messages, Date lastUpdated, long creatorID) {
         this.title = title;
         this.description = description;
         this.messages = messages;
         this.lastUpdated = lastUpdated;
+        this.creatorID = creatorID; //hjalpa framendanum að birta "edit" takka fyrir user
     }
 
     public Thread() {
@@ -81,4 +83,9 @@ public class Thread {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
+    public long getCreatorID() {
+        return creatorID;
+    }
+
 }
