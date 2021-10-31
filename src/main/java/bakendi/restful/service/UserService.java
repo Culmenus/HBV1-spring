@@ -10,4 +10,5 @@ public interface UserService {
     User findById(long id);
     User findByUsername(String username);
     List<User> findAll();
+    String getTokenForUser(User user, String pwd);
 }

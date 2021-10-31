@@ -1,8 +1,9 @@
 package bakendi.restful.service.Implemetation;
-
+import bakendi.restful.security.JWTUtils;
 import bakendi.restful.persistence.entities.User;
 import bakendi.restful.persistence.repositories.UserRepository;
 import bakendi.restful.service.UserService;
+import com.auth0.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,11 @@ import java.util.List;
 @Service
 public class UserServiceImplementation implements UserService {
     private UserRepository userRepository;
-
+    private JWTUtils jwtUtils;
     @Autowired
-    public UserServiceImplementation(UserRepository userRepository) {
+    public UserServiceImplementation(UserRepository userRepository, JWTUtils jwtUtils) {
         this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
     }
 
     @Override
@@ -43,4 +45,12 @@ public class UserServiceImplementation implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public String getTokenForUser(User user, String pwd) {
+        if (user != null && user.getPassword().equals(pwd)) {
+            String token = jwtUtils.generateToken(user);
+            return token;
+        }
+        return null;
+    }
 }

@@ -39,8 +39,8 @@ public class UserController {
     public String login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
         try {
             User user = userService.findByUsername(username);
-            if (user != null && user.getPassword().equals(pwd)) {
-                String token = jwtUtils.generateToken(user);
+            String token = userService.getTokenForUser(user,pwd);
+            if (token != null) {
                 return token;
             } else {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");
