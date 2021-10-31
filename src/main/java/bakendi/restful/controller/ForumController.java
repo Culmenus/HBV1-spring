@@ -24,7 +24,7 @@ public class ForumController {
         this.forumService = forumService;
     }
     
-    @PostMapping("/forums")
+    @PostMapping("/api/forums")
     public Forum forumsPOST(Forum forum, BindingResult result, HttpServletResponse response) throws IOException {
         if(result.hasErrors()) {
             response.sendRedirect("/forums");
@@ -35,12 +35,12 @@ public class ForumController {
         return forum;
     }
 
-    @GetMapping("/forum/{id}")
+    @GetMapping("/api/forum/{id}")
     public Forum forumByIdGET(@PathVariable("id") long id) {
         return forumService.findByID(id);
     }
 
-    @PostMapping("/forum/{id}")
+    @PostMapping("/api/forum/{id}")
     public Thread createThreadPOST(Thread thread, @PathVariable("id") long id) {
         //ndk: þurfum við að auðkenna notandann hér? eða er það gert á öðru leveli?
         //ndk: vantar að tengja user við thread?
@@ -49,7 +49,7 @@ public class ForumController {
         return thread;
     }
 
-    @PatchMapping("forum/{id}") //react sendir thread gögnin
+    @PatchMapping("/api/forum/{id}") //react sendir thread gögnin
     public Thread updateThread(@PathVariable("id") long id, HttpSession session, Thread thread){
         threadService.save(thread);
         return thread;
