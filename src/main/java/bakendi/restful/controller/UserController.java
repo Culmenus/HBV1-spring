@@ -59,21 +59,12 @@ public class UserController {
     }
 
     @PostMapping("/api/user")
-    User createUser(@RequestBody User user) {
-        if (!isValidUsername(user.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
-        }
-        // krabbamein?
-        if (!isValidPassword(user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
-        }
-        userService.save(user);
-        return user;
+    User createNewUser(@RequestBody User user) {
+       return userService.createNewUser(user);
     }
 
     @GetMapping("/api/user/{id}")
     User findUserById(@PathVariable("id") long id) {
-        System.out.println("yo");
         return this.userService.findById(id);
     }
 
@@ -85,61 +76,14 @@ public class UserController {
      */
     @PatchMapping("/api/user/updateuser")
     public User update(@RequestBody User changedUser) {
-        System.out.println(changedUser.getUsername());
-        User oldUser = userService.findById(changedUser.getID());
-        String newUsername = changedUser.getUsername();
-        String newPassword = changedUser.getPassword();
-        boolean diffName = newUsername != null && !newUsername.equals(oldUser.getUsername());
-        boolean diffPw =  newPassword != null && !newPassword.equals(oldUser.getPassword());
-        if (diffName){
-            System.out.println("username different");
-            if (usernameExists(newUsername)) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username already exists");
-            }
-            else if (isValidUsername(newUsername)) {
-                // getum bara breytt username her, ekki öllum user
-                oldUser.setUsername(newUsername);
-            } else
-                // skilum gamla user obreyttur ef username invalid
-                // kasta error?
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username invalid");
-        }
-        if (diffPw) {
-            System.out.println("password different");
-            if (isValidPassword(newPassword)) {
-                // save á að updatea user ef hann er til staðar
-                // látum client bera ábyrgð á að ná fyrst í user by id
-                oldUser.setPassword(newPassword);
-            } else
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
-        }
-        // update with new usrname/password
-        if (diffName || diffPw)
-            userService.save(oldUser);
-
-        return oldUser;
+        return userService.update(changedUser);
     }
 
-    /**
-     * Validates username
-     * @param username
-     * @return true if username between 3 og 20 chars long, begins on a letter
-     *  then contains letters, numbers or underscores only.
-     */
-    private boolean isValidUsername(String username) {
-        String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{2,19}$";
-        return username.matches(regularExpression);
-
+    @DeleteMapping
+    public void delete(@RequestBody User user) {
+        userService.delete(user);
     }
 
-    private boolean isValidPassword(String password) {
-        return password.length() >= 1;
-    }
-
-    private boolean usernameExists(String username) {
-        User user = userService.findByUsername(username);
-        return user != null && user.getUsername().equals(username);
-    }
 
 
 
