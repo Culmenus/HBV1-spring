@@ -1,5 +1,7 @@
 package bakendi.restful.persistence.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,8 +22,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Forum> favoriteForums;
-
-
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Thread> createdThreads;

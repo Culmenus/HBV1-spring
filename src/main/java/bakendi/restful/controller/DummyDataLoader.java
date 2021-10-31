@@ -31,10 +31,11 @@ public class DummyDataLoader {
         User user2 = new User("Jon", "pword2", "admin@user.is", UserRole.ROLE_ADMIN);
         userService.save(user1);
         userService.save(user2);
-        forumService.save(new Forum("TÖL104G", "Stærðfræðimynstur"));
+        Forum forum1 = new Forum("TÖL104G", "Stærðfræðimynstur");
+        forumService.save(forum1);
         forumService.save(new Forum("9+10", "21"));
         forumService.save(new Forum("TÖL101G", "Tölvunarfræði 1"));
         threadService.save(new Thread(user1));
-        threadService.save(new Thread(user2));
+        threadService.save(new Thread(forum1, "profid madur", "pls er eg sa eini", user1));
     }
 }

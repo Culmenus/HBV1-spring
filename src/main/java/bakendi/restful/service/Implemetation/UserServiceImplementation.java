@@ -67,6 +67,7 @@ public class UserServiceImplementation implements UserService {
 
         return oldUser;
     }
+
     @Override
     public String sendEmailVerificationForUser(User user, String url) {
         if (!isValidUsername(user.getUsername())) {

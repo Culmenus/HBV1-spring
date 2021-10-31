@@ -1,5 +1,9 @@
 package bakendi.restful.persistence.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,8 @@ public class Forum {
     @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Thread> threads = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     // ásett ráð að hafa ekki descr í constructor
@@ -34,12 +39,12 @@ public class Forum {
     }
     // dha: held við ættum að taka inn Thread thread en ekki long...
     public void addThread(Thread thread) {
-        // todo
+        threads.add(thread);
     }
 
     // dha: held við ættum að taka inn Thread thread en ekki long...
     public void removeThread(Thread thread) {
-        // todo
+        threads.remove(thread);
     }
 
     public long getID() {
