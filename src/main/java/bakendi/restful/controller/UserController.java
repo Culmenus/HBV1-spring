@@ -75,8 +75,12 @@ public class UserController {
      * @return changedUser from repository layer
      */
     @PatchMapping("/api/user/updateuser")
-    public User update(@RequestBody User changedUser) {
-        return userService.update(changedUser);
+    public User update(@RequestBody User changedUser, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user != null && user.getID() == changedUser.getID())
+            return userService.update(changedUser);
+        else
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "user ID does not match logged in user");
     }
 
     @DeleteMapping("/api/user/delete")
