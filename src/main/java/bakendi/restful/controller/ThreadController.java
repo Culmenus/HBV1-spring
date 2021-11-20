@@ -1,6 +1,7 @@
 package bakendi.restful.controller;
 
 import bakendi.restful.persistence.entities.Forum;
+import bakendi.restful.persistence.entities.Message;
 import bakendi.restful.persistence.entities.Thread;
 import bakendi.restful.persistence.entities.User;
 import bakendi.restful.service.ForumService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @RestController
 public class ThreadController {
@@ -36,6 +38,8 @@ public class ThreadController {
         if (user != null) {
             thread.setCreator(user);   /// gera thetta thegar httpsession er komid a hreint
         }
+
+        thread.setLastUpdated(new Date());
         forum.addThread(thread);
         thread.setForum(forum);
 
@@ -50,7 +54,7 @@ public class ThreadController {
         if (old != null) {
             old.setTitle(thread.getTitle());
             old.setDescription(thread.getDescription());
-            old.setLastUpdated(thread.getLastUpdated());
+            old.setLastUpdated(new Date());
 
             threadService.save(old);
         }

@@ -27,11 +27,15 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     private User sentBy;
 
-    public Message(Date createdAt, User sentBy, String message, boolean isEdited)  {
-        this.createdAt = createdAt;
+    public Message(User sentBy, String message, boolean isEdited)  {
+        this.createdAt = new Date();
         this.sentBy = sentBy;
         this.message = message;
         this.isEdited = isEdited;
+    }
+
+    public Message(String message) {
+        this.message = message;
     }
 
     public Message() {
@@ -76,5 +80,13 @@ public class Message {
 
     public void setSentBy(User sentBy) {
         this.sentBy = sentBy;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 }

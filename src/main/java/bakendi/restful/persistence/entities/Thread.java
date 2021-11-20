@@ -60,6 +60,7 @@ public class Thread {
 
     public void addMsg(Message message) {
         this.messages.add(message);
+        System.out.println(this.messages);
     }
 
     public void removeMsg(Message message) {
