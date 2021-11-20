@@ -49,6 +49,7 @@ public class ForumController {
     @PostMapping("/favorite-forum/{id}") //add to favorites
     public List<Forum> addToFavorites(@PathVariable("id") long id, HttpSession session){
         Forum forum = forumService.findByID(id);
+        // breyta thessu i token utfærslu? also how?
         User user = (User) session.getAttribute("loggedInUser");
         user.addToFavorites(forum);
         userService.save(user);
@@ -57,6 +58,7 @@ public class ForumController {
 
     @GetMapping("/favorite-forums") //get favorite forums
     public List<Forum> getFavorites(HttpSession session){
+        // breyta thessu i token utfærslu? also how?
         User user = (User) session.getAttribute("loggedInUser");
         return user.getFavoriteForums();
     }
@@ -64,6 +66,16 @@ public class ForumController {
     @GetMapping("/api/forum") //get all forums
     public List<Forum> getAllForums(){
         return forumService.findAll();
+    }
+
+    @DeleteMapping("/api/forum/{forumId}")
+    public boolean deleteForum(@PathVariable("forumId") long id) {
+        Forum old = forumService.findByID(id);
+        if (old != null) {
+            forumService.delete(old);
+            return true;
+        } else
+            return false;
     }
 
 }

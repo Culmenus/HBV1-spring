@@ -8,7 +8,9 @@ import bakendi.restful.service.ForumService;
 import bakendi.restful.service.ThreadService;
 import bakendi.restful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -41,7 +43,7 @@ public class ThreadController {
         User user = (User) session.getAttribute("loggedInUser");
 
         if (user != null) {
-            thread.setCreator(user);   /// gera thetta thegar httpsession er komid a hreint
+            thread.setCreator(user); 
         }
 
         thread.setLastUpdated(new Date());
@@ -68,14 +70,13 @@ public class ThreadController {
     }
 
     @DeleteMapping("/api/thread/{threadId}")
-    public Thread deleteThread(@PathVariable("threadId") long id, HttpSession session){
+    public boolean deleteThread(@PathVariable("threadId") long id, HttpSession session){
 
         Thread old = threadService.findByID(id);
         if (old != null) {
-            System.out.println(old);
             threadService.delete(old);
+            return true;
         }
-
-        return old;
+        return false;
     }
 }

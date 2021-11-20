@@ -6,7 +6,9 @@ import bakendi.restful.persistence.entities.Thread;
 import bakendi.restful.service.MessageService;
 import bakendi.restful.service.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -50,8 +52,26 @@ public class MessageController {
             threadService.save(thread);
             return messageService.findById(message.getID());
         }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Thread not found");
+    }
 
-        return null;
+    @PatchMapping("/api/message/{messageId}")
+    public Message updateMessage(@RequestBody Message message, @PathVariable("messageId") long id) {
+        Message old = messageService.findById(id);
+        old.setMessage(message.getMessage());
+        old.setEdited(true);
+        messageService.save(old);
+        return messageService.findById(old.getID());
+    }
+
+    @DeleteMapping("/api/message/{messageId}")
+    public boolean deleteMessage(@PathVariable("messageId") long id) {
+        Message msg = messageService.findById(id);
+        if (msg != null) {
+            messageService.delete(msg);
+            return true;
+        }
+        return false;
     }
 
 
