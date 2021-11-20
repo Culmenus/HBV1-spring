@@ -98,7 +98,7 @@ public class UserController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not admin");
     }
 
-    @GetMapping("/user/loggedin")
+    @GetMapping("/api/user/loggedin")
     User getLoggedIn(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         if(token == null){
