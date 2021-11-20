@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 public class MessageController {
@@ -20,6 +21,11 @@ public class MessageController {
     public MessageController(MessageService messageService, ThreadService threadService) {
         this.messageService = messageService;
         this.threadService = threadService;
+    }
+
+    @GetMapping("/api/message")
+    public List<Message> getAllMessages() {
+        return messageService.findAll();
     }
 
     @GetMapping("/api/message/{messageId}")

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 public class ThreadController {
@@ -22,6 +23,10 @@ public class ThreadController {
     public ThreadController(ForumService forumService, ThreadService threadService) {
         this.threadService = threadService;
         this.forumService = forumService;
+    }
+    @GetMapping("/api/thread")
+    public List<Thread> getAllThreads() {
+        return threadService.findAll();
     }
 
     @GetMapping("/api/thread/{threadId}")

@@ -61,9 +61,8 @@ public class ForumController {
         return user.getFavoriteForums();
     }
 
-    @GetMapping("/api/forums") //get all forums
-    public List<Forum> getAll(HttpServletRequest request){
-        System.out.println(request.getContextPath());
+    @GetMapping("/api/forum") //get all forums
+    public List<Forum> getAllForums(){
         return forumService.findAll();
     }
 
