@@ -1,16 +1,15 @@
 package bakendi.restful.controller;
 
-import bakendi.restful.persistence.entities.*;
+import bakendi.restful.persistence.entities.Forum;
 import bakendi.restful.persistence.entities.Thread;
+import bakendi.restful.persistence.entities.User;
+import bakendi.restful.persistence.entities.UserRole;
 import bakendi.restful.service.ForumService;
 import bakendi.restful.service.ThreadService;
 import bakendi.restful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class DummyDataLoader {
