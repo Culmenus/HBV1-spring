@@ -33,6 +33,11 @@ public class ForumServiceImplementation implements ForumService {
     }
 
     @Override
+    public Forum findByCourseId(String courseId) {
+        return forumRepository.findByCourseId(courseId);
+    }
+
+    @Override
     public Forum save(Forum forum) {
         return forumRepository.save(forum);
     }
