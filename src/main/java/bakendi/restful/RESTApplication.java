@@ -28,10 +28,10 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                //.antMatchers(HttpMethod.GET, "/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 //TODO: eyda tessu shitti
                 .antMatchers(HttpMethod.POST, "/initdummy").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }

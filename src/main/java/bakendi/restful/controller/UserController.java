@@ -28,7 +28,7 @@ public class UserController {
         this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public String login(@RequestParam("user") String username,
                         @RequestParam("password") String pwd,
                         HttpSession session) {
@@ -48,14 +48,8 @@ public class UserController {
     }
 
     @GetMapping("/api/user")
-    List<User> getAll(HttpSession session, HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if(token == null)
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authorization token");
-        User user = (User) session.getAttribute(token);
-        if(user != null)
+    List<User> getAll() {
             return this.userService.findAll();
-        return null;
     }
 
     @PostMapping("/api/user/signup")
