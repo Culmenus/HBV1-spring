@@ -28,7 +28,7 @@ public class UserController {
         this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public String login(@RequestParam("user") String username,
                         @RequestParam("password") String pwd,
                         HttpSession session) {
@@ -104,7 +104,7 @@ public class UserController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not admin");
     }
 
-    @GetMapping("/user/loggedin")
+    @GetMapping("/api/user/loggedin")
     User getLoggedIn(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         if(token == null){
