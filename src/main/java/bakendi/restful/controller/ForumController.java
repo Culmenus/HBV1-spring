@@ -29,37 +29,16 @@ public class ForumController {
         this.userService = userService;
     }
 
+    @PostMapping("/api/forum")
+    public Forum createForum(@RequestBody Forum forum) {
+        // sanitize/validate forum?
+        forumService.save(forum);
+        return forumService.findByCourseId(forum.getCourseId());
+    }
+
     @GetMapping("/api/forum/{id}")
     public Forum findForumById(@PathVariable("id") long id) {
         return forumService.findByID(id);
-    }
-
-    @PostMapping("/api/forum/{id}")
-    public Thread createThread(@RequestBody Thread thread, @PathVariable("id") long id, HttpSession session) {
-        Forum forum = forumService.findByID(id);
-        // breyta thessu i token utfærslu?
-        User user = (User) session.getAttribute("loggedInUser");
-        
-        if (user != null) {
-            thread.setCreator(user);   /// gera thetta thegar httpsession er komid a hreint
-        }
-        forum.addThread(thread);
-        thread.setForum(forum);
-
-        threadService.save(thread);
-        forumService.save(forum);
-        return threadService.findByID(thread.getID());
-    }
-
-    @PatchMapping("/api/forum/{id}") //react sendir thread gögnin
-    public Thread updateThread(@PathVariable("id") long id, HttpSession session, Thread thread){
-        threadService.save(thread);
-        return thread;
-    }
-    @DeleteMapping("/api/forum/{id}")
-    public Thread deleteThread(@PathVariable("id") long id, HttpSession session, Thread thread){
-        threadService.delete(thread);
-        return thread;
     }
 
     @GetMapping("/error")
@@ -70,6 +49,7 @@ public class ForumController {
     @PostMapping("/favorite-forum/{id}") //add to favorites
     public List<Forum> addToFavorites(@PathVariable("id") long id, HttpSession session){
         Forum forum = forumService.findByID(id);
+        // breyta thessu i token utfærslu? also how?
         User user = (User) session.getAttribute("loggedInUser");
         user.addToFavorites(forum);
         userService.save(user);
@@ -78,14 +58,24 @@ public class ForumController {
 
     @GetMapping("/favorite-forums") //get favorite forums
     public List<Forum> getFavorites(HttpSession session){
+        // breyta thessu i token utfærslu? also how?
         User user = (User) session.getAttribute("loggedInUser");
         return user.getFavoriteForums();
     }
 
-    @GetMapping("/api/forums") //get all forums
-    public List<Forum> getAll(HttpServletRequest request){
-        System.out.println(request.getContextPath());
+    @GetMapping("/api/forum") //get all forums
+    public List<Forum> getAllForums(){
         return forumService.findAll();
+    }
+
+    @DeleteMapping("/api/forum/{forumId}")
+    public boolean deleteForum(@PathVariable("forumId") long id) {
+        Forum old = forumService.findByID(id);
+        if (old != null) {
+            forumService.delete(old);
+            return true;
+        } else
+            return false;
     }
 
 }
