@@ -40,7 +40,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 }
             }else {
                 SecurityContextHolder.clearContext();
-                throw new Exception("User not logged in");
+                if(request.getMethod().equals("GET")) {
+                    throw new Exception("User not logged in");
+                }
             }
             chain.doFilter(request, response);
         } catch (Exception e) {
