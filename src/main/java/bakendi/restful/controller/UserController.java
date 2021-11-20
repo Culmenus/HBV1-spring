@@ -10,12 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,8 +26,27 @@ public class UserController {
         this.jwtUtils = jwtUtils;
     }
 
+    private class UserTokenPair{
+        private final User user;
+        private final String token;
+
+        public UserTokenPair (User user, String token){
+            this.user = user;
+            this.token = token;
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public String getToken() {
+            return token;
+        }
+    }
+
+
     @PostMapping("/login")
-    public String login(@RequestParam("user") String username,
+    public UserTokenPair login(@RequestParam("user") String username,
                         @RequestParam("password") String pwd,
                         HttpSession session) {
         try {
@@ -37,7 +54,8 @@ public class UserController {
             String token = userService.getTokenForUser(user,pwd);
             if (token != null) {
                 session.setAttribute(token,user);
-                return token;
+                UserTokenPair out = new UserTokenPair(user, token);
+                return out;
             } else {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");
             }
@@ -48,14 +66,8 @@ public class UserController {
     }
 
     @GetMapping("/api/user")
-    List<User> getAll(HttpSession session, HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if(token == null)
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authorization token");
-        User user = (User) session.getAttribute(token);
-        if(user != null)
+    List<User> getAll() {
             return this.userService.findAll();
-        return null;
     }
 
     @PostMapping("/api/user/signup")

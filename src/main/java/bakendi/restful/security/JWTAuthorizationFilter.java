@@ -35,14 +35,17 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 if (jwt.getClaim("authorities") != null) {
                     setUpSpringAuthentication(jwt);
                 } else {
+                    System.out.println("here1");
                     SecurityContextHolder.clearContext();
                 }
             }else {
                 SecurityContextHolder.clearContext();
+                if(request.getMethod().equals("GET")) {
+                    throw new Exception("User not logged in");
+                }
             }
             chain.doFilter(request, response);
         } catch (Exception e) {
-            System.out.println("eh");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;
@@ -72,7 +75,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
         String authenticationHeader = request.getHeader(HEADER);
-        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
+        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX) || authenticationHeader.split(" ")[1].equals(""))
             return false;
         return true;
     }
