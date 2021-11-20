@@ -12,4 +12,6 @@ public interface ForumService {
     Forum findByName(String name);
     List<Forum> findAll();
     Forum findByID(long ID);
+
+    Forum findByCourseId(String courseId);
 }

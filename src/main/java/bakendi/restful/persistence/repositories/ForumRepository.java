@@ -13,4 +13,5 @@ public interface ForumRepository extends JpaRepository<Forum, Long> {
     List<Forum> findAll();
     Forum findByID(long ID);
 
+    Forum findByCourseId(String courseId);
 }

@@ -27,7 +27,7 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     private User sentBy;
 
-    public Message(Date createdAt, User sentBy, String message, boolean isEdited) {
+    public Message(Date createdAt, User sentBy, String message, boolean isEdited)  {
         this.createdAt = createdAt;
         this.sentBy = sentBy;
         this.message = message;

@@ -57,14 +57,13 @@ public class Thread {
     public Thread() {
 
     }
-    // dha: held við ættum að breyta long yfir í Message
-    public void addMsg(Message msgId) {
-        // todo
+
+    public void addMsg(Message message) {
+        this.messages.add(message);
     }
 
-    // dha: held við ættum að breyta long yfir í Message
-    public void removeMsg(Message msgId) {
-        // todo
+    public void removeMsg(Message message) {
+        this.messages.remove(message);
     }
 
     public long getID() {
