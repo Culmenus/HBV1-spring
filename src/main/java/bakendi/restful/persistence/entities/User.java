@@ -34,10 +34,14 @@ public class User {
         this.email = email;
         this.userRole = userRole;
     }
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public User() {
 
     }
-
     // public addForumToFavourites/removeForumFromFavourites...
 
 
@@ -112,7 +116,6 @@ public class User {
         return "User{" +
                 "ID=" + ID +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", messages=" + messages +
                 ", favoriteForums=" + favoriteForums +
