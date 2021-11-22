@@ -6,7 +6,9 @@ import bakendi.restful.persistence.entities.Thread;
 import bakendi.restful.service.MessageService;
 import bakendi.restful.service.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,6 +35,13 @@ public class MessageController {
     @GetMapping("/api/message/{messageId}")
     public Message getMessage(@PathVariable("messageId") long id) {
         return messageService.findById(id);
+    }
+
+    @MessageMapping("/api/thread/{threadId}/send")
+    @SendTo("/api/thread/{threadId}")
+    public Message interceptMessage(Message msg) throws Exception{
+        msg.setCreatedAt(new Date());
+        return msg;
     }
 
     @PostMapping("/api/thread/{threadId}")
