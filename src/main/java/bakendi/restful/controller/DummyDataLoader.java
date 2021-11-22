@@ -7,9 +7,16 @@ import bakendi.restful.persistence.entities.UserRole;
 import bakendi.restful.service.ForumService;
 import bakendi.restful.service.ThreadService;
 import bakendi.restful.service.UserService;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class DummyDataLoader {
@@ -24,6 +31,7 @@ public class DummyDataLoader {
         this.userService = userService;
     }
 
+
     @PostMapping("/initdummy")
     public void forums() {
         User user1 = new User("Danni", "pword", "user@user.is", UserRole.ROLE_USER);
@@ -36,5 +44,37 @@ public class DummyDataLoader {
         forumService.save(new Forum("TÖL101G", "Tölvunarfræði 1"));
         threadService.save(new Thread(user1));
         threadService.save(new Thread(forum1, "profid madur", "pls er eg sa eini", user1));
+    }
+
+    @PostMapping("/datatest")
+    public void getHugboForums() throws IOException, CsvException {
+        String root = System.getProperty("user.dir");
+        String fileName = "Kennsluskra.csv";
+        String filePath = root+File.separator+"src"+File.separator+"main"+File.separator+"csv"+File.separator+fileName;
+        System.out.println(filePath);
+
+        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+            reader.skip(1);
+            List<String[]> r = reader.readAll();
+            r.forEach(x -> {
+                String[] data = x[0].split(";");
+
+                String courseId = data[0];
+                String courseName = data[1];
+                String ECTs = data[2];
+                String semester = data[3];
+                String gradLevel = data[4];
+                String infoLink = data [5];
+
+                String description = "Kennslumisseri: "+semester+"\n"+
+                                        "Stig: "+gradLevel+"\n"+
+                                        "Námskeiðið er "+ECTs+" einingar."+"\n"+
+                                        "Nánari upplýsingar má finn hér: "+ infoLink;
+
+                Forum tempCourseForum = new Forum(courseId, courseName);
+                tempCourseForum.setDescription(description);
+                forumService.save(tempCourseForum);
+            });
+        }
     }
 }
