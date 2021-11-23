@@ -2,6 +2,7 @@ package bakendi.restful.controller;
 
 
 import bakendi.restful.persistence.entities.User;
+import bakendi.restful.persistence.entities.UserNoPword;
 import bakendi.restful.persistence.entities.UserRole;
 import bakendi.restful.security.JWTUtils;
 import bakendi.restful.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,15 +29,15 @@ public class UserController {
     }
 
     private class UserTokenPair{
-        private final User user;
+        private final UserNoPword user;
         private final String token;
 
-        public UserTokenPair (User user, String token){
+        public UserTokenPair (UserNoPword user, String token){
             this.user = user;
             this.token = token;
         }
 
-        public User getUser() {
+        public UserNoPword getUser() {
             return user;
         }
 
@@ -46,16 +48,18 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public UserTokenPair login(@RequestParam("username") String username,
-                        @RequestParam("password") String pwd,
+    public UserTokenPair login(@RequestBody User userIn,
                         HttpSession session) {
         try {
-            User user = userService.findByEmail(username);
-            System.out.println(user.toString());
+            String email = userIn.getEmail();
+            String pwd = userIn.getPassword();
+            User user = userService.findByEmail(email);
             String token = userService.getTokenForUser(user,pwd);
             if (token != null) {
                 session.setAttribute(token,user);
-                UserTokenPair out = new UserTokenPair(user, token);
+                UserNoPword unp = new UserNoPword(user.getID(), user.getUsername(), user.getEmail(), user.getMessages(),
+                        user.getFavoriteForums(), user.getCreatedThreads(), user.getUserRole());
+                UserTokenPair out = new UserTokenPair(unp, token);
                 return out;
             } else {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");

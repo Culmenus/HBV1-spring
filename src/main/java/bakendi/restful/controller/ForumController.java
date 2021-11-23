@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -66,6 +67,19 @@ public class ForumController {
     @GetMapping("/api/forum") //get all forums
     public List<Forum> getAllForums(){
         return forumService.findAll();
+    }
+
+    @PatchMapping("/api/forum/{forumId}") //react sendir thread gögnin
+    public Forum updateForum(@RequestBody Forum forum, @PathVariable("forumId") long id, HttpSession session){
+        Forum old = forumService.findByID(id);
+        if (old != null) {
+            old.setCourseId(forum.getCourseId());
+            old.setName(forum.getName());
+
+            forumService.save(old);
+        }
+
+        return old;
     }
 
     @DeleteMapping("/api/forum/{forumId}")
