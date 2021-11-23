@@ -37,8 +37,8 @@ public class MessageController {
         return messageService.findById(id);
     }
 
-    @MessageMapping("/api/thread/{threadId}/send")
-    @SendTo("/api/thread/{threadId}")
+    @MessageMapping("/send")
+    @SendTo("/topic/get")
     public Message interceptMessage(Message msg) throws Exception{
         msg.setCreatedAt(new Date());
         return msg;

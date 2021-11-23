@@ -39,9 +39,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                 }
             }else {
-                SecurityContextHolder.clearContext();
-                if(request.getMethod().equals("GET")) {
-                    throw new Exception("User not logged in");
+                if(!request.getMethod().equals("GET")) {
+                    SecurityContextHolder.clearContext();
                 }
             }
             chain.doFilter(request, response);
