@@ -55,7 +55,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 //TODO: eyda tessu shitti
                 .antMatchers(HttpMethod.POST, "/initdummy").permitAll()
-                .anyRequest().permitAll().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .antMatchers("/thread/**").permitAll()
+                .anyRequest().authenticated();
     }
 
     @Bean
@@ -82,13 +83,13 @@ class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/api/thread");
+        config.enableSimpleBroker("/topic");
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/thread").withSockJS();
+        registry.addEndpoint("/thread").setAllowedOriginPatterns("http://localhost:3000", "*").withSockJS();
     }
 
 }
