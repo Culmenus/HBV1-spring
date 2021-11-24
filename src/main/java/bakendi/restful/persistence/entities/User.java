@@ -2,6 +2,7 @@ package bakendi.restful.persistence.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public class User implements Serializable {
     private long ID;
 
     private String username;
-    @JsonIgnore
+    @JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password; // hash and salt plz.
     private String email;
     @JsonIgnore
@@ -27,7 +28,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
 
     private List<Forum> favoriteForums = new ArrayList<Forum>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Thread> createdThreads;
 
