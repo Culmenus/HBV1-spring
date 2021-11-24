@@ -3,11 +3,12 @@ package bakendi.restful.persistence.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,9 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
+    public User(long ID){
+        this.ID = ID;
+    }
     public User() {
 
     }
