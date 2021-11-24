@@ -44,26 +44,22 @@ public class MessageController {
     @SendTo("/thread/{threadId}/get")
     public MessageDto interceptMessage(MessageDto msg) throws Exception{
         msg.setCreatedAt(new Date());
-        System.out.println(msg.getUsername());
         return msg;
     }
 
     @PostMapping("/api/thread/{threadId}")
-    public Message createMessage(@RequestBody Message message, @PathVariable("threadId") long id, HttpSession session) {
+    public Message createMessage(@RequestBody MessageDto message, @PathVariable("threadId") long id) {
         Thread thread = threadService.findByID(id);
+        User user = userService.findById(message.getUserID());
         if (thread != null) {
-            // breyta thessu i token utfærslu? also how?
-            User user = (User) session.getAttribute("loggedInUser");
-            if (user != null) {
-                message.setSentBy(user);
-            }
+            Message newMessage = new Message(user, message.getMessage(), message.isEdited());
             message.setCreatedAt(new Date());
-            thread.addMsg(message);
-            message.setThread(thread);
+            thread.addMsg(newMessage);
+            newMessage.setThread(thread);
 
-            messageService.save(message);
+            messageService.save(newMessage);
             threadService.save(thread);
-            return messageService.findById(message.getID());
+            return messageService.findById(newMessage.getID());
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Thread not found");
     }

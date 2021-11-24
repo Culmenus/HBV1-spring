@@ -24,7 +24,6 @@ public class Message implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Thread thread;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private User sentBy;
 
