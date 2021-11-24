@@ -25,7 +25,6 @@ public class Thread {
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private User creator;
