@@ -47,12 +47,17 @@ public class ForumController {
         response.sendError(0, "Error occurred"  );
     }
 
-    @PostMapping("/favorite-forum/{id}") //add to favorites
-    public List<Forum> addToFavorites(@PathVariable("id") long id, HttpSession session){
-        Forum forum = forumService.findByID(id);
-        // breyta thessu i token utfærslu? also how?
-        User user = (User) session.getAttribute("loggedInUser");
+    @PostMapping("/api/favorite-forums/{id}") //add to favorites
+    public List<Forum> addToFavorites(@RequestBody Forum forum, @PathVariable("id") long userID){
+        User user = userService.findById(userID);
         user.addToFavorites(forum);
+        userService.save(user);
+        return user.getFavoriteForums();
+    }
+    @PostMapping("/api/delete-favorite-forums/{id}") //add to favorites
+    public List<Forum> deleteFromFavorites(@RequestBody Forum forum, @PathVariable("id") long userID){
+        User user = userService.findById(userID);
+        user.removeFromFavorites(forum);
         userService.save(user);
         return user.getFavoriteForums();
     }
