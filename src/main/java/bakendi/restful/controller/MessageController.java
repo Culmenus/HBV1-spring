@@ -1,10 +1,12 @@
 package bakendi.restful.controller;
 
+import bakendi.restful.model.MessageDto;
 import bakendi.restful.persistence.entities.Message;
 import bakendi.restful.persistence.entities.User;
 import bakendi.restful.persistence.entities.Thread;
 import bakendi.restful.service.MessageService;
 import bakendi.restful.service.ThreadService;
+import bakendi.restful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,12 @@ import java.util.List;
 public class MessageController {
     private MessageService messageService;
     private ThreadService threadService;
-
+    private UserService userService;
     @Autowired
-    public MessageController(MessageService messageService, ThreadService threadService) {
+    public MessageController(MessageService messageService, ThreadService threadService, UserService userService) {
         this.messageService = messageService;
         this.threadService = threadService;
+        this.userService = userService;
     }
 
     @GetMapping("/api/message")
@@ -37,10 +40,11 @@ public class MessageController {
         return messageService.findById(id);
     }
 
-    @MessageMapping("/send")
-    @SendTo("/topic/get")
-    public Message interceptMessage(Message msg) throws Exception{
+    @MessageMapping("/thread/{threadId}/send")
+    @SendTo("/thread/{threadId}/get")
+    public MessageDto interceptMessage(MessageDto msg) throws Exception{
         msg.setCreatedAt(new Date());
+        System.out.println(msg.getUsername());
         return msg;
     }
 
