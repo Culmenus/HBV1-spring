@@ -121,4 +121,16 @@ public class Thread {
         this.forum = forum;
     }
 
+    @Override
+    public String toString() {
+        return "Thread{" +
+                "ID=" + ID +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", lastUpdated=" + lastUpdated +
+                ", forum=" + forum +
+                ", messages=" + messages +
+                ", creator=" + creator +
+                '}';
+    }
 }
