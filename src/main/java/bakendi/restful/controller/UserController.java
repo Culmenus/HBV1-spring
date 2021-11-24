@@ -2,7 +2,6 @@ package bakendi.restful.controller;
 
 
 import bakendi.restful.persistence.entities.User;
-import bakendi.restful.persistence.entities.UserNoPword;
 import bakendi.restful.persistence.entities.UserRole;
 import bakendi.restful.security.JWTUtils;
 import bakendi.restful.service.UserService;
@@ -14,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.SchemaOutputResolver;
 import java.io.IOException;
 import java.util.List;
 
@@ -29,15 +27,15 @@ public class UserController {
     }
 
     private class UserTokenPair{
-        private final UserNoPword user;
+        private final User user;
         private final String token;
 
-        public UserTokenPair (UserNoPword user, String token){
+        public UserTokenPair (User user, String token){
             this.user = user;
             this.token = token;
         }
 
-        public UserNoPword getUser() {
+        public User getUser() {
             return user;
         }
 
@@ -57,9 +55,7 @@ public class UserController {
             String token = userService.getTokenForUser(user,pwd);
             if (token != null) {
                 session.setAttribute(token,user);
-                UserNoPword unp = new UserNoPword(user.getID(), user.getUsername(), user.getEmail(), user.getMessages(),
-                        user.getFavoriteForums(), user.getCreatedThreads(), user.getUserRole());
-                UserTokenPair out = new UserTokenPair(unp, token);
+                UserTokenPair out = new UserTokenPair(user, token);
                 return out;
             } else {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");
