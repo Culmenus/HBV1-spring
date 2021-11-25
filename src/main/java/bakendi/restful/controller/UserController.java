@@ -46,15 +46,13 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public UserTokenPair login(@RequestBody User userIn,
-                        HttpSession session) {
+    public UserTokenPair login(@RequestBody User userIn) {
         try {
             String email = userIn.getEmail();
             String pwd = userIn.getPassword();
             User user = userService.findByEmail(email);
             String token = userService.getTokenForUser(user,pwd);
             if (token != null) {
-                session.setAttribute(token,user);
                 UserTokenPair out = new UserTokenPair(user, token);
                 return out;
             } else {
