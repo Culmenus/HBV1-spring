@@ -25,8 +25,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "sentBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
-
+    @ManyToMany( cascade = CascadeType.ALL) // forumId?? //dha: nooo held svona frekar
     private List<Forum> favoriteForums = new ArrayList<Forum>();
     @JsonIgnore
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
@@ -87,7 +86,9 @@ public class User implements Serializable {
 
     public void addToFavorites(Forum forum) {this.favoriteForums.add(forum);}
 
-    public void removeFromFavorites(Forum forum) {this.favoriteForums.remove(forum);}
+    public void removeFromFavorites(Forum forum) {
+        this.favoriteForums.removeIf(f -> f.getID() == forum.getID());
+    }
 
     public List<Forum> getFavoriteForums() {
         return favoriteForums;

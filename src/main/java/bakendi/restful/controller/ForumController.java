@@ -57,8 +57,10 @@ public class ForumController {
     @PostMapping("/api/delete-favorite-forums/{id}") //add to favorites
     public List<Forum> deleteFromFavorites(@RequestBody Forum forum, @PathVariable("id") long userID){
         User user = userService.findById(userID);
+
         user.removeFromFavorites(forum);
         userService.save(user);
+
         return user.getFavoriteForums();
     }
 
