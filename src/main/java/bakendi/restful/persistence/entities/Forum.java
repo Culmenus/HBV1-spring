@@ -24,8 +24,8 @@ public class Forum {
     private List<Thread> threads = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<User> user = new ArrayList<>();
 
     // ásett ráð að hafa ekki descr í constructor
     public Forum(String courseId, String courseName) {
