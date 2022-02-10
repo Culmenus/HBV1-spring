@@ -36,9 +36,11 @@ public class DummyDataLoader {
         User user1 = new User("Danni", "pword", "user@user.is", UserRole.ROLE_USER);
         User user2 = new User("Jon", "pword2", "admin@user.is", UserRole.ROLE_ADMIN);
         User user3 = new User("Oddur", "pword3", "oat3@hi.is", UserRole.ROLE_USER);
+        User user4 = new User("Nati", "pword4","nati@bomb.is", UserRole.ROLE_USER);
         userService.save(user1);
         userService.save(user2);
         userService.save(user3);
+        userService.save(user4);
     }
 
     @PostMapping("/datatest")
