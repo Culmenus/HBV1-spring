@@ -31,6 +31,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
             if (checkJWTToken(request, response)) {
+                System.out.println("here");
                 DecodedJWT jwt = validateToken(request);
                 if (jwt.getClaim("authorities") != null) {
                     setUpSpringAuthentication(jwt);
@@ -39,14 +40,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                 }
             }else {
-                if(!request.getMethod().equals("GET")) {
-                    SecurityContextHolder.clearContext();
+                if(request.getMethod().equals("GET")) {
+                    throw new Exception("Unauthorized");
                 }
+                    SecurityContextHolder.clearContext();
             }
-            chain.doFilter(request, response);
+            chain.doFilter(request,response);
         } catch (Exception e) {
+            System.out.println("here");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;
         }
     }
@@ -74,8 +77,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
         String authenticationHeader = request.getHeader(HEADER);
-        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX) || authenticationHeader.split(" ")[1].equals(""))
+        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX) || authenticationHeader.split(" ")[1].equals("")){
+            System.out.println("whatup");
             return false;
+        }
         return true;
     }
 

@@ -32,16 +32,6 @@ public class RESTApplication {
     }
 }
 
-@Configuration
-class WebConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-    }
-}
-
 @EnableWebSecurity
 @Configuration
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -78,6 +68,17 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 
+
+@Configuration
+class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+    }
+}
+
 @Configuration
 @EnableWebSocketMessageBroker
 class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
@@ -92,5 +93,4 @@ class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/thread").setAllowedOriginPatterns("http://localhost:3000", "*").withSockJS();
     }
-
 }
