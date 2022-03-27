@@ -55,6 +55,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 //TODO: eyda tessu shitti
                 .antMatchers(HttpMethod.POST, "/initdummy").permitAll()
+                .antMatchers(HttpMethod.POST, "/datatest").permitAll()
                 .antMatchers("/thread/**").permitAll()
                 .anyRequest().authenticated();
     }
