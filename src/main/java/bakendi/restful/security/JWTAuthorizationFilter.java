@@ -29,9 +29,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override()
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        System.out.println(request.getMethod() + " " + request.getRequestURI());
         try {
             if (checkJWTToken(request, response)) {
-                System.out.println("here");
                 DecodedJWT jwt = validateToken(request);
                 if (jwt.getClaim("authorities") != null) {
                     setUpSpringAuthentication(jwt);
@@ -40,14 +40,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                 }
             }else {
-                if(request.getMethod().equals("GET")) {
-                    throw new Exception("Unauthorized");
+                if(request.getMethod().equals("GET")){
+                    chain.doFilter(request,response);
+                    return;
                 }
                     SecurityContextHolder.clearContext();
             }
             chain.doFilter(request,response);
         } catch (Exception e) {
-            System.out.println("here");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;
@@ -77,8 +77,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
         String authenticationHeader = request.getHeader(HEADER);
+        System.out.println(authenticationHeader);
         if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX) || authenticationHeader.split(" ")[1].equals("")){
-            System.out.println("whatup");
             return false;
         }
         return true;

@@ -43,6 +43,7 @@ public class MessageController {
     @MessageMapping("/thread/{threadId}/send")
     @SendTo("/thread/{threadId}/get")
     public MessageDto interceptMessage(MessageDto msg) throws Exception{
+        System.out.println("Get!");
         msg.setCreatedAt(new Date());
         return msg;
     }

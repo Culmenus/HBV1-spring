@@ -41,12 +41,11 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.GET, "/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 //TODO: eyda tessu shitti
                 .antMatchers(HttpMethod.POST, "/initdummy").permitAll()
                 .antMatchers(HttpMethod.POST, "/datatest").permitAll()
-                .antMatchers("/thread/**").permitAll()
                 .anyRequest().authenticated();
     }
 

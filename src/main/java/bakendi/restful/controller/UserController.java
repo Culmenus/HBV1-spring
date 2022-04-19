@@ -47,6 +47,7 @@ public class UserController {
 
     @PostMapping("/login")
     public UserTokenPair login(@RequestBody User userIn) {
+        System.out.println(userIn.getEmail());
         try {
             String email = userIn.getEmail();
             String pwd = userIn.getPassword();
