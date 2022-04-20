@@ -117,7 +117,7 @@ public class UserController {
     }
 
     @GetMapping("/api/user/loggedin")
-    User getLoggedIn(HttpServletRequest request){
+    public User getLoggedIn(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         if(token == null){
             return null;
