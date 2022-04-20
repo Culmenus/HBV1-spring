@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -25,8 +27,11 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "sentBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
-    @ManyToMany( cascade = CascadeType.ALL) // forumId?? //dha: nooo held svona frekar
-    private List<Forum> favoriteForums = new ArrayList<Forum>();
+    @JsonIgnore
+    @ManyToMany() // forumId?? //dha: nooo held svona frekar
+    @JoinTable(name = "course_like", joinColumns = @JoinColumn(name = "users_ID"), inverseJoinColumns = @JoinColumn(name = "forums_ID"))
+    private Set<Forum> favoriteForums = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true) // forumId?? //dha: nooo held svona frekar
     private List<Thread> createdThreads;
@@ -90,11 +95,11 @@ public class User implements Serializable {
         this.favoriteForums.removeIf(f -> f.getID() == forum.getID());
     }
 
-    public List<Forum> getFavoriteForums() {
+    public Set<Forum> getFavoriteForums() {
         return favoriteForums;
     }
 
-    public void setFavoriteForums(List<Forum> favoriteForums) {
+    public void setFavoriteForums(Set<Forum> favoriteForums) {
         this.favoriteForums = favoriteForums;
     }
 
