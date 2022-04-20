@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -20,11 +21,12 @@ import java.util.List;
 public class ThreadController {
     private final ForumService forumService;
     private final ThreadService threadService;
-
+    private final UserController userController;
     @Autowired
-    public ThreadController(ForumService forumService, ThreadService threadService) {
+    public ThreadController(ForumService forumService, ThreadService threadService, UserController userController) {
         this.threadService = threadService;
         this.forumService = forumService;
+        this.userController = userController;
     }
     @GetMapping("/api/thread")
     public List<Thread> getAllThreads() {
@@ -37,10 +39,10 @@ public class ThreadController {
     }
 
     @PostMapping("/api/forum/{forumId}")
-    public Thread createThread(@RequestBody Thread thread, @PathVariable("forumId") long id, HttpSession session) {
+    public Thread createThread(@RequestBody Thread thread, @PathVariable("forumId") long id, HttpServletRequest request) {
         Forum forum = forumService.findByID(id);
         // breyta thessu i token utfærslu? also how?
-        User user = (User) session.getAttribute("loggedInUser");
+        User user = userController.getLoggedIn(request);
 
         if (user != null) {
             thread.setCreator(user); 
@@ -56,7 +58,7 @@ public class ThreadController {
     }
 
     @PatchMapping("/api/thread/{threadId}") //react sendir thread gögnin
-    public Thread updateThread(@RequestBody Thread thread, @PathVariable("threadId") long id, HttpSession session){
+    public Thread updateThread(@RequestBody Thread thread, @PathVariable("threadId") long id){
         Thread old = threadService.findByID(id);
         if (old != null) {
             old.setTitle(thread.getTitle());
@@ -70,7 +72,7 @@ public class ThreadController {
     }
 
     @DeleteMapping("/api/thread/{threadId}")
-    public boolean deleteThread(@PathVariable("threadId") long id, HttpSession session){
+    public boolean deleteThread(@PathVariable("threadId") long id){
 
         Thread old = threadService.findByID(id);
         if (old != null) {
