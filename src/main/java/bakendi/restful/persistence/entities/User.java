@@ -27,6 +27,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "sentBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
+    @JsonIgnore
     @ManyToMany()
     @JoinTable(name = "course_like", joinColumns = @JoinColumn(name = "users_ID"), inverseJoinColumns = @JoinColumn(name = "forums_ID"))
     private Set<Forum> favoriteForums = new HashSet<>();
