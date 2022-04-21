@@ -29,6 +29,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override()
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        System.out.println(request.getMethod() + " " + request.getRequestURI());
         try {
             if (checkJWTToken(request, response)) {
                 DecodedJWT jwt = validateToken(request);
@@ -39,14 +40,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                 }
             }else {
-                if(!request.getMethod().equals("GET")) {
-                    SecurityContextHolder.clearContext();
+                if(request.getMethod().equals("GET")){
+                    chain.doFilter(request,response);
+                    return;
                 }
+                    SecurityContextHolder.clearContext();
             }
-            chain.doFilter(request, response);
+            chain.doFilter(request,response);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;
         }
     }
@@ -74,8 +77,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
         String authenticationHeader = request.getHeader(HEADER);
-        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX) || authenticationHeader.split(" ")[1].equals(""))
+        System.out.println(authenticationHeader);
+        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX) || authenticationHeader.split(" ")[1].equals("")){
             return false;
+        }
         return true;
     }
 

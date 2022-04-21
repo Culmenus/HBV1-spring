@@ -1,7 +1,6 @@
 package bakendi.restful.controller;
 
 import bakendi.restful.persistence.entities.Forum;
-import bakendi.restful.persistence.entities.Thread;
 import bakendi.restful.persistence.entities.User;
 import bakendi.restful.persistence.entities.UserRole;
 import bakendi.restful.service.ForumService;
@@ -36,14 +35,12 @@ public class DummyDataLoader {
     public void forums() {
         User user1 = new User("Danni", "pword", "user@user.is", UserRole.ROLE_USER);
         User user2 = new User("Jon", "pword2", "admin@user.is", UserRole.ROLE_ADMIN);
+        User user3 = new User("Oddur", "pword3", "oat3@hi.is", UserRole.ROLE_USER);
+        User user4 = new User("Nati", "pword4","nati@bomb.is", UserRole.ROLE_USER);
         userService.save(user1);
         userService.save(user2);
-        Forum forum1 = new Forum("TÖL104G", "Stærðfræðimynstur");
-        forumService.save(forum1);
-        forumService.save(new Forum("9+10", "21"));
-        forumService.save(new Forum("TÖL101G", "Tölvunarfræði 1"));
-        threadService.save(new Thread(user1));
-        threadService.save(new Thread(forum1, "profid madur", "pls er eg sa eini", user1));
+        userService.save(user3);
+        userService.save(user4);
     }
 
     @PostMapping("/datatest")

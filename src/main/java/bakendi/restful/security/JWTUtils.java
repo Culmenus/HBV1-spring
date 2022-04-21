@@ -52,12 +52,6 @@ public class JWTUtils implements Serializable {
         return verifier.verify(token);
     }
 
-    //check if the token has expired
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
-    }
-
     //generate token for user
     public String generateToken(User user) {
         long userID = user.getID();
@@ -72,7 +66,6 @@ public class JWTUtils implements Serializable {
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JWT_TOKEN_VALIDITY))
                 .sign(algorithmHS);
         return token;
 
@@ -82,6 +75,6 @@ public class JWTUtils implements Serializable {
     //validate token
     public Boolean validateToken(String token, User userDetails) {
         final long userID = getUserIDFromToken(token);
-        return (userID == userDetails.getID() && !isTokenExpired(token));
+        return (userID == userDetails.getID());
     }
 }

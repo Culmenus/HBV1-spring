@@ -16,18 +16,21 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class ForumController {
     private final ForumService forumService;
     private final ThreadService threadService;
     private final UserService userService;
+    private final UserController userController;
 
     @Autowired
-    public ForumController(ForumService forumService, ThreadService threadService, UserService userService) {
+    public ForumController(ForumService forumService, ThreadService threadService, UserService userService, UserController userController) {
         this.threadService = threadService;
         this.forumService = forumService;
         this.userService = userService;
+        this.userController = userController;
     }
 
     @PostMapping("/api/forum")
@@ -47,25 +50,28 @@ public class ForumController {
         response.sendError(0, "Error occurred"  );
     }
 
-    @PostMapping("/api/favorite-forums/{id}") //add to favorites
-    public List<Forum> addToFavorites(@RequestBody Forum forum, @PathVariable("id") long userID){
-        User user = userService.findById(userID);
+    @PostMapping("/api/favorite-forums/{forumId}") //add to favorites
+    public Set<Forum> addToFavorites(@PathVariable("forumId") long forumId, HttpServletRequest request){
+        User user = userController.getLoggedIn(request);
+        Forum forum = forumService.findByID(forumId);
         user.addToFavorites(forum);
         userService.save(user);
         return user.getFavoriteForums();
     }
-    @PostMapping("/api/delete-favorite-forums/{id}") //add to favorites
-    public List<Forum> deleteFromFavorites(@RequestBody Forum forum, @PathVariable("id") long userID){
-        User user = userService.findById(userID);
+    @PostMapping("/api/delete-favorite-forums/{forumId}") //add to favorites
+    public Set<Forum> deleteFromFavorites(@PathVariable("forumId") long forumId, HttpServletRequest request){
+        User user = userController.getLoggedIn(request);
+        Forum forum = forumService.findByID(forumId);
         user.removeFromFavorites(forum);
         userService.save(user);
+
         return user.getFavoriteForums();
     }
 
-    @GetMapping("/favorite-forums") //get favorite forums
-    public List<Forum> getFavorites(HttpSession session){
-        // breyta thessu i token utfærslu? also how?
-        User user = (User) session.getAttribute("loggedInUser");
+    @GetMapping("/api/favorite-forums") //get favorite forums
+    public Set<Forum> getFavorites(HttpServletRequest request){
+        User user = userController.getLoggedIn(request);
+
         return user.getFavoriteForums();
     }
 

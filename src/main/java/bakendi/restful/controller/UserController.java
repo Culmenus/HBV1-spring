@@ -1,6 +1,7 @@
 package bakendi.restful.controller;
 
 
+import bakendi.restful.persistence.entities.Forum;
 import bakendi.restful.persistence.entities.User;
 import bakendi.restful.persistence.entities.UserRole;
 import bakendi.restful.security.JWTUtils;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class UserController {
@@ -29,10 +31,12 @@ public class UserController {
     private class UserTokenPair{
         private final User user;
         private final String token;
+        private final Set<Forum> favoriteForums;
 
-        public UserTokenPair (User user, String token){
+        public UserTokenPair (User user, String token, Set<Forum> favoriteForums){
             this.user = user;
             this.token = token;
+            this.favoriteForums = favoriteForums;
         }
 
         public User getUser() {
@@ -42,18 +46,20 @@ public class UserController {
         public String getToken() {
             return token;
         }
+        public Set<Forum> getFavoriteForums() { return favoriteForums;}
     }
 
 
     @PostMapping("/login")
     public UserTokenPair login(@RequestBody User userIn) {
+        System.out.println(userIn.getEmail());
         try {
             String email = userIn.getEmail();
             String pwd = userIn.getPassword();
             User user = userService.findByEmail(email);
             String token = userService.getTokenForUser(user,pwd);
             if (token != null) {
-                UserTokenPair out = new UserTokenPair(user, token);
+                UserTokenPair out = new UserTokenPair(user, token, user.getFavoriteForums());
                 return out;
             } else {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password incorrect");
@@ -116,7 +122,7 @@ public class UserController {
     }
 
     @GetMapping("/api/user/loggedin")
-    User getLoggedIn(HttpServletRequest request){
+    public User getLoggedIn(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         if(token == null){
             return null;

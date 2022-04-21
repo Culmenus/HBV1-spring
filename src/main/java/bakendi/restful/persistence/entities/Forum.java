@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "forums")
@@ -24,8 +26,8 @@ public class Forum {
     private List<Thread> threads = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
+    @ManyToMany(mappedBy = "favoriteForums")
+    private Set<User> users = new HashSet<>();
 
     // ásett ráð að hafa ekki descr í constructor
     public Forum(String courseId, String courseName) {
