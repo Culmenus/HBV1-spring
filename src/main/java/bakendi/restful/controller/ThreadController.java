@@ -58,11 +58,13 @@ public class ThreadController {
     }
 
     @PatchMapping("/api/thread/{threadId}") //react sendir thread gögnin
-    public Thread updateThread(@RequestBody Thread thread, @PathVariable("threadId") long id){
+    public Thread updateThread(@PathVariable("newTitle") String newTitle,
+                               @PathVariable("newDescription")String newDesc,
+                               @PathVariable("threadId") long id){
         Thread old = threadService.findByID(id);
         if (old != null) {
-            old.setTitle(thread.getTitle());
-            old.setDescription(thread.getDescription());
+            old.setTitle(newTitle);
+            old.setDescription(newDesc);
             old.setLastUpdated(new Date());
 
             threadService.save(old);
