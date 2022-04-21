@@ -57,7 +57,7 @@ public class ThreadController {
         return threadService.findByID(thread.getID());
     }
 
-    @PatchMapping("/api/thread/{threadId}") //react sendir thread gögnin
+    @PatchMapping("/api/thread/{threadId}/title/{newTitle}/desc/{newDescription}") //react sendir thread gögnin
     public Thread updateThread(@PathVariable("newTitle") String newTitle,
                                @PathVariable("newDescription")String newDesc,
                                @PathVariable("threadId") long id){
